@@ -157,6 +157,7 @@ const Index = () => {
                     recipe={recipe}
                     matchedIngredients={selectedIngredients}
                     index={i}
+                    onViewPdf={(r, spanish) => setViewingRecipe({ recipe: r, spanish })}
                   />
                 ))}
               </div>
