@@ -22,7 +22,10 @@ export function RecipeCard({ recipe, matchedIngredients, index, onViewPdf }: Rec
     "Sauces & Dips": "🥫",
   };
 
-  const hasDirectLink = !!recipe.driveFileId;
+  const hasEnglishPdf = !!recipe.driveFileId;
+  const hasSpanishPdf = !!recipe.spanishDriveFileId;
+  const hasAnyPdf = hasEnglishPdf || hasSpanishPdf;
+  const openInDriveUrl = getViewUrl(recipe.driveFileId ?? recipe.spanishDriveFileId ?? "");
 
   return (
     <div
@@ -67,16 +70,18 @@ export function RecipeCard({ recipe, matchedIngredients, index, onViewPdf }: Rec
 
       {/* Actions */}
       <div className="flex flex-wrap items-center gap-3">
-        {hasDirectLink ? (
+        {hasAnyPdf ? (
           <>
-            <button
-              onClick={() => onViewPdf(recipe)}
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-foreground bg-accent px-3.5 py-2 rounded-lg hover:opacity-90 transition-all active:scale-[0.97]"
-            >
-              <Eye className="h-3.5 w-3.5" />
-              View recipe
-            </button>
-            {recipe.hasSpanish && recipe.spanishDriveFileId && (
+            {hasEnglishPdf && (
+              <button
+                onClick={() => onViewPdf(recipe)}
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-foreground bg-accent px-3.5 py-2 rounded-lg hover:opacity-90 transition-all active:scale-[0.97]"
+              >
+                <Eye className="h-3.5 w-3.5" />
+                View recipe
+              </button>
+            )}
+            {hasSpanishPdf && (
               <button
                 onClick={() => onViewPdf(recipe, true)}
                 className="inline-flex items-center gap-1.5 text-sm font-medium text-primary bg-primary/10 px-3 py-2 rounded-lg hover:bg-primary/15 transition-all active:scale-[0.97]"
@@ -86,7 +91,7 @@ export function RecipeCard({ recipe, matchedIngredients, index, onViewPdf }: Rec
               </button>
             )}
             <a
-              href={getViewUrl(recipe.driveFileId!)}
+              href={openInDriveUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
