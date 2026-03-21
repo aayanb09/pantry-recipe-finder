@@ -1,5 +1,6 @@
-import { ExternalLink, Globe } from "lucide-react";
+import { ExternalLink, Globe, FolderOpen } from "lucide-react";
 import type { Recipe } from "@/data/recipes";
+import { RECIPE_FOLDER_URL } from "@/data/recipes";
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -61,16 +62,22 @@ export function RecipeCard({ recipe, matchedIngredients, index }: RecipeCardProp
         ))}
       </div>
 
-      {/* Link */}
-      <a
-        href={recipe.pdfUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline transition-colors active:scale-[0.97]"
-      >
-        View recipe
-        <ExternalLink className="h-3.5 w-3.5" />
-      </a>
+      {/* Filename hint + Link */}
+      <div className="flex flex-col gap-1.5">
+        <p className="text-xs text-muted-foreground">
+          <span className="font-medium">Look for:</span> "{recipe.title}.pdf"
+        </p>
+        <a
+          href={RECIPE_FOLDER_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline transition-colors active:scale-[0.97]"
+        >
+          <FolderOpen className="h-3.5 w-3.5" />
+          Open recipe library
+          <ExternalLink className="h-3 w-3" />
+        </a>
+      </div>
     </div>
   );
 }
