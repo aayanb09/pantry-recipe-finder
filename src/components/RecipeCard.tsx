@@ -1,14 +1,15 @@
-import { ExternalLink, Globe, FolderOpen } from "lucide-react";
+import { ExternalLink, Globe, FolderOpen, Eye } from "lucide-react";
 import type { Recipe } from "@/data/recipes";
-import { RECIPE_FOLDER_URL } from "@/data/recipes";
+import { RECIPE_FOLDER_URL, getViewUrl } from "@/data/recipes";
 
 interface RecipeCardProps {
   recipe: Recipe;
   matchedIngredients: string[];
   index: number;
+  onViewPdf: (recipe: Recipe, spanish?: boolean) => void;
 }
 
-export function RecipeCard({ recipe, matchedIngredients, index }: RecipeCardProps) {
+export function RecipeCard({ recipe, matchedIngredients, index, onViewPdf }: RecipeCardProps) {
   const categoryEmoji: Record<string, string> = {
     "Vegetables": "🥬",
     "Fruits": "🍎",
@@ -20,6 +21,8 @@ export function RecipeCard({ recipe, matchedIngredients, index }: RecipeCardProp
     "Desserts": "🍪",
     "Sauces & Dips": "🥫",
   };
+
+  const hasDirectLink = !!recipe.driveFileId;
 
   return (
     <div
@@ -62,21 +65,48 @@ export function RecipeCard({ recipe, matchedIngredients, index }: RecipeCardProp
         ))}
       </div>
 
-      {/* Filename hint + Link */}
-      <div className="flex flex-col gap-1.5">
-        <p className="text-xs text-muted-foreground">
-          <span className="font-medium">Look for:</span> "{recipe.title}.pdf"
-        </p>
-        <a
-          href={RECIPE_FOLDER_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline transition-colors active:scale-[0.97]"
-        >
-          <FolderOpen className="h-3.5 w-3.5" />
-          Open recipe library
-          <ExternalLink className="h-3 w-3" />
-        </a>
+      {/* Actions */}
+      <div className="flex flex-wrap items-center gap-3">
+        {hasDirectLink ? (
+          <>
+            <button
+              onClick={() => onViewPdf(recipe)}
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-foreground bg-accent px-3.5 py-2 rounded-lg hover:opacity-90 transition-all active:scale-[0.97]"
+            >
+              <Eye className="h-3.5 w-3.5" />
+              View recipe
+            </button>
+            {recipe.hasSpanish && recipe.spanishDriveFileId && (
+              <button
+                onClick={() => onViewPdf(recipe, true)}
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-primary bg-primary/10 px-3 py-2 rounded-lg hover:bg-primary/15 transition-all active:scale-[0.97]"
+              >
+                <Globe className="h-3.5 w-3.5" />
+                Ver en español
+              </button>
+            )}
+            <a
+              href={getViewUrl(recipe.driveFileId!)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Open in Drive
+              <ExternalLink className="h-3 w-3" />
+            </a>
+          </>
+        ) : (
+          <a
+            href={RECIPE_FOLDER_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline transition-colors active:scale-[0.97]"
+          >
+            <FolderOpen className="h-3.5 w-3.5" />
+            Find in recipe library
+            <ExternalLink className="h-3 w-3" />
+          </a>
+        )}
       </div>
     </div>
   );
