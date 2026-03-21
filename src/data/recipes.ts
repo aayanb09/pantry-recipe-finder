@@ -16,11 +16,12 @@ export type RecipeCategory =
 export interface Recipe {
   id: string;
   title: string;
-  fileName: string;
   ingredients: string[];
   category: RecipeCategory;
   hasSpanish: boolean;
 }
+
+export const RECIPE_FOLDER_URL = "https://drive.google.com/drive/folders/1JDEg1DdvElV0Y1bl4U9n8MI3ANX_lKv1";
 
 
 export const recipes: Recipe[] = [
