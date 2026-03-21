@@ -69,6 +69,14 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* PDF Viewer Modal */}
+      {viewingRecipe && (
+        <RecipeViewer
+          recipe={viewingRecipe.recipe}
+          spanish={viewingRecipe.spanish}
+          onClose={() => setViewingRecipe(null)}
+        />
+      )}
       {/* Nav */}
       <header className="sticky top-0 z-50 bg-background/90 backdrop-blur-sm border-b border-border">
         <div className="container flex items-center justify-between h-14">
