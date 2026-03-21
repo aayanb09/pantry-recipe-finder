@@ -39,6 +39,7 @@ function Section({ children, className = "" }: { children: React.ReactNode; clas
 const Index = () => {
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<RecipeCategory | null>(null);
+  const [viewingRecipe, setViewingRecipe] = useState<{ recipe: Recipe; spanish?: boolean } | null>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const filteredRecipes = useMemo(() => {
