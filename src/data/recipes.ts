@@ -9,6 +9,10 @@ export type RecipeCategory =
   | "Desserts"
   | "Sauces & Dips";
 
+// To link directly to a PDF in Google Drive, you need the file's unique ID.
+// Format: https://drive.google.com/file/d/FILE_ID/view
+// The folder link is used as a fallback when individual IDs aren't available.
+
 export interface Recipe {
   id: string;
   title: string;
