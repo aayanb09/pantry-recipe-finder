@@ -1,10 +1,11 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import { ChefHat, UtensilsCrossed, ArrowDown } from "lucide-react";
 import heroImage from "@/assets/hero-food.jpg";
-import { recipes, type RecipeCategory } from "@/data/recipes";
+import { recipes, type Recipe, type RecipeCategory } from "@/data/recipes";
 import { IngredientPicker } from "@/components/IngredientPicker";
 import { RecipeCard } from "@/components/RecipeCard";
 import { CategoryFilter } from "@/components/CategoryFilter";
+import { RecipeViewer } from "@/components/RecipeViewer";
 
 function useScrollReveal() {
   const ref = useRef<HTMLDivElement>(null);
@@ -38,6 +39,7 @@ function Section({ children, className = "" }: { children: React.ReactNode; clas
 const Index = () => {
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<RecipeCategory | null>(null);
+  const [viewingRecipe, setViewingRecipe] = useState<{ recipe: Recipe; spanish?: boolean } | null>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const filteredRecipes = useMemo(() => {
@@ -67,6 +69,14 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* PDF Viewer Modal */}
+      {viewingRecipe && (
+        <RecipeViewer
+          recipe={viewingRecipe.recipe}
+          spanish={viewingRecipe.spanish}
+          onClose={() => setViewingRecipe(null)}
+        />
+      )}
       {/* Nav */}
       <header className="sticky top-0 z-50 bg-background/90 backdrop-blur-sm border-b border-border">
         <div className="container flex items-center justify-between h-14">
@@ -155,6 +165,7 @@ const Index = () => {
                     recipe={recipe}
                     matchedIngredients={selectedIngredients}
                     index={i}
+                    onViewPdf={(r, spanish) => setViewingRecipe({ recipe: r, spanish })}
                   />
                 ))}
               </div>

@@ -9,42 +9,47 @@ export type RecipeCategory =
   | "Desserts"
   | "Sauces & Dips";
 
-// To link directly to a PDF in Google Drive, you need the file's unique ID.
-// Format: https://drive.google.com/file/d/FILE_ID/view
-// The folder link is used as a fallback when individual IDs aren't available.
-
 export interface Recipe {
   id: string;
   title: string;
   ingredients: string[];
   category: RecipeCategory;
   hasSpanish: boolean;
+  driveFileId?: string;
+  spanishDriveFileId?: string;
 }
 
 export const RECIPE_FOLDER_URL = "https://drive.google.com/drive/folders/1JDEg1DdvElV0Y1bl4U9n8MI3ANX_lKv1";
 
+export function getPreviewUrl(fileId: string) {
+  return `https://drive.google.com/file/d/${fileId}/preview`;
+}
+
+export function getViewUrl(fileId: string) {
+  return `https://drive.google.com/file/d/${fileId}/view`;
+}
 
 export const recipes: Recipe[] = [
   // Vegetables
-  { id: "broccoli", title: "2 Ways to Cook Broccoli", ingredients: ["Broccoli", "Olive Oil", "Garlic"], category: "Vegetables", hasSpanish: false },
-  { id: "rutabagas", title: "2 Ways to Cook Rutabagas", ingredients: ["Rutabaga", "Butter", "Onion"], category: "Vegetables", hasSpanish: false },
-  { id: "sweet-potatoes-2", title: "2 Ways to Cook Sweet Potatoes", ingredients: ["Sweet Potato", "Butter", "Cinnamon"], category: "Vegetables", hasSpanish: false },
-  { id: "kohlrabi", title: "2 Ways to Use Kohlrabi", ingredients: ["Kohlrabi", "Olive Oil", "Lemon"], category: "Vegetables", hasSpanish: false },
-  { id: "carrots", title: "4 Ways to Cook Carrots", ingredients: ["Carrots", "Olive Oil", "Honey"], category: "Vegetables", hasSpanish: false },
-  { id: "corn-cob", title: "4 Ways to Cook Corn on the Cob", ingredients: ["Corn", "Butter", "Salt"], category: "Vegetables", hasSpanish: false },
-  { id: "russet-potatoes", title: "4 Ways to Cook Russet Potatoes", ingredients: ["Russet Potatoes", "Butter", "Sour Cream"], category: "Vegetables", hasSpanish: false },
-  { id: "tomatoes", title: "4 Ways to Cook Tomatoes", ingredients: ["Tomatoes", "Garlic", "Olive Oil"], category: "Vegetables", hasSpanish: true },
-  { id: "zucchini", title: "4 Ways to Cook Zucchini", ingredients: ["Zucchini", "Garlic", "Olive Oil"], category: "Vegetables", hasSpanish: true },
-  { id: "bell-peppers", title: "4 Ways to Use Bell Peppers", ingredients: ["Bell Peppers", "Onion", "Olive Oil"], category: "Vegetables", hasSpanish: false },
-  { id: "brussels-sprouts", title: "4 Ways to Use Brussels Sprouts", ingredients: ["Brussels Sprouts", "Olive Oil", "Garlic"], category: "Vegetables", hasSpanish: false },
-  { id: "butternut-squash", title: "4 Ways to Use Butternut Squash", ingredients: ["Butternut Squash", "Olive Oil", "Onion"], category: "Vegetables", hasSpanish: false },
-  { id: "cabbage", title: "4 Ways to Use Cabbage", ingredients: ["Cabbage", "Onion", "Garlic"], category: "Vegetables", hasSpanish: false },
-  { id: "canned-corn", title: "4 Ways to Use Canned Corn", ingredients: ["Canned Corn", "Butter", "Onion"], category: "Vegetables", hasSpanish: true },
-  { id: "canned-green-beans", title: "4 Ways to Use Canned Green Beans", ingredients: ["Canned Green Beans", "Garlic", "Bacon"], category: "Vegetables", hasSpanish: true },
-  { id: "canned-peas", title: "4 Ways to Use Canned Peas", ingredients: ["Canned Peas", "Butter", "Onion"], category: "Vegetables", hasSpanish: true },
-  { id: "cauliflower", title: "4 Ways to Use Cauliflower", ingredients: ["Cauliflower", "Olive Oil", "Garlic"], category: "Vegetables", hasSpanish: true },
-  { id: "eggplant", title: "4 Ways to Use Eggplant", ingredients: ["Eggplant", "Olive Oil", "Garlic"], category: "Vegetables", hasSpanish: false },
-  { id: "spinach", title: "4 Ways to Use Spinach", ingredients: ["Spinach", "Garlic", "Olive Oil"], category: "Vegetables", hasSpanish: false },
+  { id: "broccoli", title: "2 Ways to Cook Broccoli", ingredients: ["Broccoli", "Olive Oil", "Garlic"], category: "Vegetables", hasSpanish: false, driveFileId: "1mVkN2tpRIB2avLhBX3sHutH5DZVNglgB" },
+  { id: "rutabagas", title: "2 Ways to Cook Rutabagas", ingredients: ["Rutabaga", "Butter", "Onion"], category: "Vegetables", hasSpanish: false, driveFileId: "1AgOWfdCk60x5xqaMOnd0CXr970Lwv8em" },
+  { id: "sweet-potatoes-2", title: "2 Ways to Cook Sweet Potatoes", ingredients: ["Sweet Potato", "Butter", "Cinnamon"], category: "Vegetables", hasSpanish: false, driveFileId: "1m8SOfQQ4RsyHyUWEyEPPiu3xTcem8gga" },
+  { id: "kohlrabi", title: "2 Ways to Use Kohlrabi", ingredients: ["Kohlrabi", "Olive Oil", "Lemon"], category: "Vegetables", hasSpanish: false, driveFileId: "17Ad8oZdy_AVLKKXIJnK7wwjgNGxx6X4x" },
+  { id: "carrots", title: "4 Ways to Cook Carrots", ingredients: ["Carrots", "Olive Oil", "Honey"], category: "Vegetables", hasSpanish: false, driveFileId: "16eUwojTI_kLah5ohAhFQy48wYIoSVv9i" },
+  { id: "corn-cob", title: "4 Ways to Cook Corn on the Cob", ingredients: ["Corn", "Butter", "Salt"], category: "Vegetables", hasSpanish: false, driveFileId: "1Pn6qTD8QaipeKlguV1spCp58WWogF5X0" },
+  { id: "russet-potatoes", title: "4 Ways to Cook Russet Potatoes", ingredients: ["Russet Potatoes", "Butter", "Sour Cream"], category: "Vegetables", hasSpanish: false, driveFileId: "1SofXNzRr3sxTrlbUP6WQf4IAkWqGdDBE" },
+  { id: "tomatoes", title: "4 Ways to Cook Tomatoes", ingredients: ["Tomatoes", "Garlic", "Olive Oil"], category: "Vegetables", hasSpanish: true, driveFileId: "1y_9wsu33OgwrydoQyQE5g0CGVF98BMpA", spanishDriveFileId: "1yuhCRasO9Wybl54ayKC2d1OiOmy7mwIl" },
+  { id: "zucchini", title: "4 Ways to Cook Zucchini", ingredients: ["Zucchini", "Garlic", "Olive Oil"], category: "Vegetables", hasSpanish: true, driveFileId: "18K2Y-Kr_HUbPLzw9idiHjfqc3-OoDm-b", spanishDriveFileId: "1kaAUTRWwTGDNip8oDpTcq1Xqx2RIoSS4" },
+  { id: "bell-peppers", title: "4 Ways to Use Bell Peppers", ingredients: ["Bell Peppers", "Onion", "Olive Oil"], category: "Vegetables", hasSpanish: false, driveFileId: "10QdvNRbN9fijxnmheWSfwt2K_1-dbPt1" },
+  { id: "brussels-sprouts", title: "4 Ways to Use Brussels Sprouts", ingredients: ["Brussels Sprouts", "Olive Oil", "Garlic"], category: "Vegetables", hasSpanish: false, driveFileId: "1Knivz9kc4HZQ0Qs4w3GL0pthPjqZKlyd" },
+  { id: "butternut-squash", title: "4 Ways to Use Butternut Squash", ingredients: ["Butternut Squash", "Olive Oil", "Onion"], category: "Vegetables", hasSpanish: false, driveFileId: "17j5yt6d-YIOoUk_9YhvxZT8nkWIHYOiB" },
+  { id: "cabbage", title: "4 Ways to Use Cabbage", ingredients: ["Cabbage", "Onion", "Garlic"], category: "Vegetables", hasSpanish: false, driveFileId: "1NKvtr_8MvW4h-CPiTsX8JtidbQl8rfv_" },
+  { id: "canned-corn", title: "4 Ways to Use Canned Corn", ingredients: ["Canned Corn", "Butter", "Onion"], category: "Vegetables", hasSpanish: true, driveFileId: "1ni-1EKfOfq-CF3UszrjX_JG8jpGl3OY_", spanishDriveFileId: "1PvcZbB5b007-qpVOVXSWkOby6-cpNIY8" },
+  { id: "canned-green-beans", title: "4 Ways to Use Canned Green Beans", ingredients: ["Canned Green Beans", "Garlic", "Bacon"], category: "Vegetables", hasSpanish: true, driveFileId: "1hr76nPn7U0A-UctuNSpcoPhshmP2XDnh", spanishDriveFileId: "1ydpG_Xwmf66qUbLZuyKXYNx5-69LUOki" },
+  { id: "canned-peas", title: "4 Ways to Use Canned Peas", ingredients: ["Canned Peas", "Butter", "Onion"], category: "Vegetables", hasSpanish: true, driveFileId: "1dJTvg8KwyeI7qyx2QiBj3x6XeTGzza4pkeHJqwZlM1c" },
+  { id: "cauliflower", title: "4 Ways to Use Cauliflower", ingredients: ["Cauliflower", "Olive Oil", "Garlic"], category: "Vegetables", hasSpanish: true, driveFileId: "1a6HiiSPvPNYjzOUsJQc89cKtiVC7sW1o" },
+  { id: "eggplant", title: "4 Ways to Use Eggplant", ingredients: ["Eggplant", "Olive Oil", "Garlic"], category: "Vegetables", hasSpanish: false, driveFileId: "1pB1-DpT7DRZDmaStcPXcciljzVCO5_0m" },
+  { id: "spinach", title: "4 Ways to Use Spinach", ingredients: ["Spinach", "Garlic", "Olive Oil"], category: "Vegetables", hasSpanish: false, driveFileId: "1KAM_eCBRdMmE2vS2pzHZKiqxVKdgx5gw" },
   { id: "chayote", title: "Chayote – A Squash with Zucchini Flavor", ingredients: ["Chayote", "Garlic", "Lime"], category: "Vegetables", hasSpanish: false },
   { id: "baked-sweet-potato-fries", title: "Baked Sweet Potato Fries", ingredients: ["Sweet Potato", "Olive Oil", "Salt"], category: "Vegetables", hasSpanish: false },
   { id: "buffalo-cauliflower", title: "Buffalo Cauliflower Bites", ingredients: ["Cauliflower", "Hot Sauce", "Flour"], category: "Vegetables", hasSpanish: false },
@@ -53,8 +58,8 @@ export const recipes: Recipe[] = [
   { id: "pickles", title: "Easy Refrigerator Pickles", ingredients: ["Cucumbers", "Vinegar", "Dill"], category: "Vegetables", hasSpanish: false },
 
   // Fruits
-  { id: "apples", title: "4 Ways to Cook Apples", ingredients: ["Apples", "Cinnamon", "Sugar"], category: "Fruits", hasSpanish: false },
-  { id: "oranges", title: "3 Ways to Use Oranges", ingredients: ["Oranges", "Sugar", "Honey"], category: "Fruits", hasSpanish: false },
+  { id: "apples", title: "4 Ways to Cook Apples", ingredients: ["Apples", "Cinnamon", "Sugar"], category: "Fruits", hasSpanish: false, driveFileId: "1FSaEQjNGCDXt9F0e1zCBHpRZuq5G-Ech" },
+  { id: "oranges", title: "3 Ways to Use Oranges", ingredients: ["Oranges", "Sugar", "Honey"], category: "Fruits", hasSpanish: false, driveFileId: "1T9ixRGv0hUXgh86aTSO5m8EhbuxXMqhS" },
   { id: "peaches", title: "4 Ways to Use Peaches", ingredients: ["Peaches", "Sugar", "Cinnamon"], category: "Fruits", hasSpanish: false },
   { id: "bananas", title: "4 Ways to Use Ripe Bananas", ingredients: ["Bananas", "Flour", "Sugar"], category: "Fruits", hasSpanish: false },
   { id: "pumpkin-puree", title: "4 Ways to Use Pumpkin Puree", ingredients: ["Pumpkin Puree", "Cinnamon", "Sugar"], category: "Fruits", hasSpanish: false },
@@ -64,8 +69,8 @@ export const recipes: Recipe[] = [
   { id: "green-smoothie", title: "Delectable Green Smoothie", ingredients: ["Spinach", "Banana", "Yogurt", "Honey"], category: "Fruits", hasSpanish: false },
 
   // Beans & Legumes
-  { id: "black-beans", title: "3 Ways to Cook Black Beans", ingredients: ["Black Beans", "Garlic", "Onion"], category: "Beans & Legumes", hasSpanish: false },
-  { id: "snap-peas", title: "3 Ways to Use Snap Peas", ingredients: ["Snap Peas", "Garlic", "Sesame Oil"], category: "Beans & Legumes", hasSpanish: false },
+  { id: "black-beans", title: "3 Ways to Cook Black Beans", ingredients: ["Black Beans", "Garlic", "Onion"], category: "Beans & Legumes", hasSpanish: false, driveFileId: "1Q1Ip1hM1CDqQe0RmyEpPmpiZpTLeAHM9" },
+  { id: "snap-peas", title: "3 Ways to Use Snap Peas", ingredients: ["Snap Peas", "Garlic", "Sesame Oil"], category: "Beans & Legumes", hasSpanish: false, driveFileId: "1Bx212uA7V9vLnQuKoQ842AGoL6gHaIeL" },
   { id: "black-bean-corn-salad", title: "Black Bean & Corn Salad with Lime Dressing", ingredients: ["Black Beans", "Corn", "Lime", "Cilantro"], category: "Beans & Legumes", hasSpanish: false },
   { id: "black-bean-enchiladas", title: "Black Bean & Sweet Potato Enchiladas", ingredients: ["Black Beans", "Sweet Potato", "Tortillas", "Enchilada Sauce"], category: "Beans & Legumes", hasSpanish: false },
   { id: "black-bean-fajita-pasta", title: "Black Bean Fajita Pasta", ingredients: ["Black Beans", "Pasta", "Bell Peppers", "Onion"], category: "Beans & Legumes", hasSpanish: false },
@@ -79,8 +84,8 @@ export const recipes: Recipe[] = [
   { id: "lentils-split-peas", title: "How to Cook Lentils and Split Peas", ingredients: ["Lentils", "Split Peas", "Onion", "Garlic"], category: "Beans & Legumes", hasSpanish: false },
 
   // Grains & Pasta
-  { id: "mac-cheese", title: "4 Ways to Cook Mac & Cheese", ingredients: ["Macaroni", "Cheese", "Milk", "Butter"], category: "Grains & Pasta", hasSpanish: true },
-  { id: "pb-oatmeal", title: "2 Ways to Use PB & Oatmeal", ingredients: ["Peanut Butter", "Oatmeal", "Honey"], category: "Grains & Pasta", hasSpanish: false },
+  { id: "mac-cheese", title: "4 Ways to Cook Mac & Cheese", ingredients: ["Macaroni", "Cheese", "Milk", "Butter"], category: "Grains & Pasta", hasSpanish: true, driveFileId: "1ZjXFtGO9aDP9Ls8ixg51uVlfvcW_P1TQ", spanishDriveFileId: "1lbg0xR2LWLftJzTrJN7c5RRgsq9ZG88e" },
+  { id: "pb-oatmeal", title: "2 Ways to Use PB & Oatmeal", ingredients: ["Peanut Butter", "Oatmeal", "Honey"], category: "Grains & Pasta", hasSpanish: false, driveFileId: "11C8b5bU_fmN-SWBZ3HXfQn9YnewO6KyP" },
   { id: "barley-jambalaya", title: "Barley Jambalaya", ingredients: ["Barley", "Sausage", "Bell Peppers", "Tomatoes"], category: "Grains & Pasta", hasSpanish: false },
   { id: "butternut-mac", title: "Butternut Squash Mac and Cheese", ingredients: ["Butternut Squash", "Macaroni", "Cheese", "Milk"], category: "Grains & Pasta", hasSpanish: false },
   { id: "chili-mac", title: "Chili Mac n' Cheese", ingredients: ["Macaroni", "Cheese", "Chili", "Ground Beef"], category: "Grains & Pasta", hasSpanish: false },
@@ -103,7 +108,7 @@ export const recipes: Recipe[] = [
   { id: "fall-smoothie-bowls", title: "Fall Smoothie Bowl Recipes", ingredients: ["Pumpkin", "Banana", "Yogurt", "Granola"], category: "Soups & Stews", hasSpanish: false },
 
   // Snacks & Sides
-  { id: "protein-bites", title: "2 Ways to Use Gladian Protein Bites", ingredients: ["Protein Bites", "Peanut Butter", "Chocolate"], category: "Snacks & Sides", hasSpanish: false },
+  { id: "protein-bites", title: "2 Ways to Use Gladian Protein Bites", ingredients: ["Protein Bites", "Peanut Butter", "Chocolate"], category: "Snacks & Sides", hasSpanish: false, driveFileId: "1r_P4mMwtNBQQNY3pDAFbqpkf-zvBvBuZ" },
   { id: "walnuts", title: "7 Ways to Use Walnuts", ingredients: ["Walnuts", "Honey", "Oats"], category: "Snacks & Sides", hasSpanish: false },
   { id: "hummus", title: "Delicious Hummus", ingredients: ["Chickpeas", "Tahini", "Lemon", "Garlic"], category: "Snacks & Sides", hasSpanish: false },
   { id: "flavorful-hummus", title: "Flavorful Hummus", ingredients: ["Chickpeas", "Tahini", "Garlic", "Olive Oil"], category: "Snacks & Sides", hasSpanish: false },
@@ -138,7 +143,6 @@ export const allCategories: RecipeCategory[] = [
   "Desserts",
 ];
 
-// Common pantry ingredients people are likely to search
 export const popularIngredients = [
   "Black Beans", "Rice", "Chickpeas", "Carrots", "Onion", "Garlic",
   "Tomatoes", "Potatoes", "Corn", "Spinach", "Bananas", "Apples",
