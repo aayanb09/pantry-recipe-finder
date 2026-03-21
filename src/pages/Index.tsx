@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from "react";
-import { ChefHat, UtensilsCrossed, ArrowDown } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 import heroImage from "@/assets/hero-food.jpg";
 import { recipes, type Recipe, type RecipeCategory } from "@/data/recipes";
 import { IngredientPicker } from "@/components/IngredientPicker";
@@ -81,7 +81,11 @@ const Index = () => {
       <header className="sticky top-0 z-50 bg-background/90 backdrop-blur-sm border-b border-border">
         <div className="container flex items-center justify-between h-14">
           <div className="flex items-center gap-2">
-            <ChefHat className="h-6 w-6 text-primary" />
+            <img
+              src="/food-bank-badge.svg"
+              alt="The Food Bank for Central & Northeast Missouri"
+              className="h-8 w-8 rounded-full"
+            />
             <span className="font-semibold text-lg">Recipe Finder</span>
           </div>
           <a
@@ -149,7 +153,12 @@ const Index = () => {
 
             {/* Count */}
             <div className="flex items-center gap-2 mb-6">
-              <UtensilsCrossed className="h-5 w-5 text-primary" />
+              <img
+                src="/food-bank-badge.svg"
+                alt=""
+                aria-hidden="true"
+                className="h-5 w-5 rounded-full"
+              />
               <span className="text-sm font-medium text-muted-foreground">
                 {filteredRecipes.length} recipe{filteredRecipes.length !== 1 && "s"} found
                 {selectedIngredients.length > 0 && ` for ${selectedIngredients.length} ingredient${selectedIngredients.length !== 1 ? "s" : ""}`}

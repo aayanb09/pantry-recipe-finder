@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">The Food Bank for Central and Northeast Missouri badge</title>
+  <desc id="desc">A circular purple badge with Food Bank text and a basket icon in the center.</desc>
+  <defs>
+    <path id="topArc" d="M 48 128 A 80 80 0 0 1 208 128" />
+    <path id="bottomArc" d="M 212 128 A 84 84 0 0 1 44 128" />
+  </defs>
+  <rect width="256" height="256" fill="#ffffff" />
+  <circle cx="128" cy="128" r="121" fill="#ffffff" stroke="#4a316b" stroke-width="8" />
+  <circle cx="128" cy="128" r="104" fill="none" stroke="#4a316b" stroke-width="12" />
+  <text fill="#4a316b" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" letter-spacing="1.6">
+    <textPath href="#topArc" startOffset="50%" text-anchor="middle">THE FOOD BANK</textPath>
+  </text>
+  <text fill="#4a316b" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="1.4">
+    <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">FOR CENTRAL &amp; NORTHEAST MISSOURI</textPath>
+  </text>
+  <circle cx="128" cy="128" r="57" fill="none" stroke="#4a316b" stroke-width="7" />
+  <g fill="none" stroke="#4a316b" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M102 106c0-15 12-27 26-27 9 0 18 5 23 13 6-3 11-4 16-3" stroke-width="6" />
+    <path d="M100 108l-11 10" stroke-width="5" />
+    <path d="M90 118v14" stroke-width="5" />
+    <path d="M115 99l11-11" stroke-width="5" />
+    <path d="M129 85h18" stroke-width="5" />
+    <path d="M144 88l14 8" stroke-width="5" />
+    <path d="M150 104c11 0 21 6 27 15" stroke-width="5" />
+  </g>
+  <g fill="#4a316b">
+    <rect x="84" y="133" width="88" height="16" rx="4" />
+    <path d="M80 149h96l-12 26H92Z" />
+    <rect x="99" y="120" width="8" height="19" rx="2" />
+    <rect x="118" y="120" width="8" height="19" rx="2" />
+    <rect x="137" y="120" width="8" height="19" rx="2" />
+    <path d="M94 133c2-11 11-19 22-19h24c11 0 20 8 22 19h-10c-2-6-7-10-12-10h-24c-5 0-10 4-12 10Z" />
+  </g>
+</svg>
