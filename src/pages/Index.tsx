@@ -1,10 +1,11 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import { ChefHat, UtensilsCrossed, ArrowDown } from "lucide-react";
 import heroImage from "@/assets/hero-food.jpg";
-import { recipes, type RecipeCategory } from "@/data/recipes";
+import { recipes, type Recipe, type RecipeCategory } from "@/data/recipes";
 import { IngredientPicker } from "@/components/IngredientPicker";
 import { RecipeCard } from "@/components/RecipeCard";
 import { CategoryFilter } from "@/components/CategoryFilter";
+import { RecipeViewer } from "@/components/RecipeViewer";
 
 function useScrollReveal() {
   const ref = useRef<HTMLDivElement>(null);
