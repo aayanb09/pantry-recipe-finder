@@ -1,4 +1,4 @@
-# Pantry Recipe Finder
+# Meal Maker
 
 A Vite + React app for browsing pantry-friendly recipe PDFs from The Food Bank for Central & Northeast Missouri.
 

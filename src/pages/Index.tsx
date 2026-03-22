@@ -86,7 +86,7 @@ const Index = () => {
               alt="The Food Bank for Central & Northeast Missouri"
               className="h-8 w-8 rounded-full"
             />
-            <span className="font-semibold text-lg">Recipe Finder</span>
+            <span className="font-semibold text-lg">Meal Maker</span>
           </div>
           <a
             href="https://drive.google.com/drive/folders/1JDEg1DdvElV0Y1bl4U9n8MI3ANX_lKv1"
@@ -116,7 +116,7 @@ const Index = () => {
               What's in your kitchen today?
             </h1>
             <p className="text-lg text-white/85 mb-8 max-w-md leading-relaxed">
-              Find easy, delicious recipes using the ingredients you already have at home or received from the pantry.
+              Find easy, delicious recipes using the ingredients you already have at home or received from the pantry. All PDFs are made by the Food Bank for Central and Northeast Missouri.
             </p>
             <button
               onClick={scrollToResults}
