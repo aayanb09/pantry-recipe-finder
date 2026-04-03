@@ -86,13 +86,16 @@ const Index = () => {
               alt="The Food Bank for Central & Northeast Missouri"
               className="h-8 w-8 rounded-full"
             />
-            <span className="font-semibold text-lg">Meal Maker</span>
+            <div>
+              <span className="font-semibold text-lg leading-none">Meal Maker</span>
+              <p className="hidden sm:block text-xs text-muted-foreground">Powered by The Food Bank</p>
+            </div>
           </div>
           <a
             href="https://drive.google.com/drive/folders/1JDEg1DdvElV0Y1bl4U9n8MI3ANX_lKv1"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
           >
             Browse all PDFs →
           </a>
@@ -108,19 +111,29 @@ const Index = () => {
             className="w-full h-full object-cover"
             loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-foreground/85 via-foreground/70 to-foreground/40" />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(110deg, rgba(63,42,86,0.96) 0%, rgba(83,104,43,0.86) 45%, rgba(111,155,164,0.72) 100%)",
+            }}
+          />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.24),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(233,131,0,0.22),transparent_30%)]" />
         </div>
         <div className="relative container py-20 md:py-28">
           <div className="max-w-lg animate-fade-in-up">
+            <div className="brand-chip inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] mb-5">
+              Pantry recipes made practical
+            </div>
             <h1 className="text-4xl md:text-5xl font-bold text-white leading-[1.1] mb-4" style={{ lineHeight: 1.1 }}>
               What's in your kitchen today?
             </h1>
             <p className="text-lg text-white/85 mb-8 max-w-md leading-relaxed">
-              Find easy, delicious recipes using the ingredients you already have at home or received from the pantry. All PDFs are made by the Food Bank for Central and Northeast Missouri.
+              Find easy, delicious recipes using the ingredients you already have at home or received from the pantry. All PDFs are made by The Food Bank for Central & Northeast Missouri.
             </p>
             <button
               onClick={scrollToResults}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent text-accent-foreground font-semibold shadow-lg hover:shadow-xl transition-all active:scale-[0.97]"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[rgb(239,182,97)] text-[rgb(59,69,89)] font-semibold shadow-lg hover:shadow-xl hover:bg-[rgb(244,192,120)] transition-all active:scale-[0.97]"
             >
               Find recipes
               <ArrowDown className="h-4 w-4" />
@@ -130,15 +143,17 @@ const Index = () => {
       </section>
 
       {/* Ingredient Picker Section */}
-      <Section className="py-12 md:py-16">
+      <Section className="py-12 md:py-16 brand-section">
         <div className="container">
-          <div className="text-center mb-8">
+          <div className="text-center mb-8 pt-5 brand-divider">
             <h2 className="text-2xl md:text-3xl font-bold mb-2">Select your ingredients</h2>
             <p className="text-muted-foreground">
               Pick what you have and we'll find matching recipes
             </p>
           </div>
-          <IngredientPicker selected={selectedIngredients} onChange={setSelectedIngredients} />
+          <div className="brand-panel rounded-[28px] border border-border px-5 py-6 md:px-8 md:py-8">
+            <IngredientPicker selected={selectedIngredients} onChange={setSelectedIngredients} />
+          </div>
         </div>
       </Section>
 
@@ -147,7 +162,7 @@ const Index = () => {
         <Section className="pb-16 md:pb-24">
           <div className="container">
             {/* Category filter */}
-            <div className="mb-8">
+            <div className="mb-8 pt-5 brand-divider">
               <CategoryFilter selected={selectedCategory} onChange={setSelectedCategory} />
             </div>
 
@@ -179,7 +194,7 @@ const Index = () => {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-16 bg-card rounded-2xl border border-border">
+              <div className="text-center py-16 bg-card rounded-2xl border border-border brand-panel">
                 <p className="text-xl font-semibold mb-2">No recipes match yet</p>
                 <p className="text-muted-foreground">
                   Try selecting different ingredients or clearing your filters
@@ -191,7 +206,7 @@ const Index = () => {
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-border py-8">
+      <footer className="border-t border-border py-8 bg-[linear-gradient(180deg,transparent,rgba(111,155,164,0.08))]">
         <div className="container text-center">
           <p className="text-sm text-muted-foreground">
             Recipes by The Food Bank for Central & Northeast Missouri · 

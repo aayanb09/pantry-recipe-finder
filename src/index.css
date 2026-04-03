@@ -1,49 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
-
 @layer base {
   :root {
-    --background: 48 60% 97%;
-    --foreground: 20 10% 16%;
+    --background: 40 22% 97%;
+    --foreground: 221 20% 29%;
 
-    --card: 45 50% 98%;
-    --card-foreground: 20 10% 16%;
+    --card: 0 0% 100%;
+    --card-foreground: 221 20% 29%;
 
-    --popover: 48 60% 97%;
-    --popover-foreground: 20 10% 16%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 221 20% 29%;
 
-    --primary: 130 22% 33%;
-    --primary-foreground: 48 60% 97%;
+    --primary: 267 34% 25%;
+    --primary-foreground: 40 22% 97%;
 
-    --secondary: 45 30% 92%;
-    --secondary-foreground: 20 10% 16%;
+    --secondary: 195 25% 87%;
+    --secondary-foreground: 221 20% 29%;
 
-    --muted: 45 20% 93%;
-    --muted-foreground: 20 6% 46%;
+    --muted: 60 5% 87%;
+    --muted-foreground: 60 7% 33%;
 
-    --accent: 17 52% 47%;
-    --accent-foreground: 48 60% 97%;
+    --accent: 24 83% 53%;
+    --accent-foreground: 40 22% 97%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 40 20% 87%;
-    --input: 40 20% 87%;
-    --ring: 130 22% 33%;
+    --border: 195 17% 76%;
+    --input: 195 17% 76%;
+    --ring: 267 34% 25%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 45 30% 95%;
-    --sidebar-foreground: 20 10% 16%;
-    --sidebar-primary: 130 22% 33%;
-    --sidebar-primary-foreground: 48 60% 97%;
-    --sidebar-accent: 45 30% 92%;
-    --sidebar-accent-foreground: 20 10% 16%;
-    --sidebar-border: 40 20% 87%;
-    --sidebar-ring: 130 22% 33%;
+    --sidebar-background: 40 22% 95%;
+    --sidebar-foreground: 221 20% 29%;
+    --sidebar-primary: 267 34% 25%;
+    --sidebar-primary-foreground: 40 22% 97%;
+    --sidebar-accent: 195 25% 87%;
+    --sidebar-accent-foreground: 221 20% 29%;
+    --sidebar-border: 195 17% 76%;
+    --sidebar-ring: 267 34% 25%;
+
+    --brand-jagger: 267 34% 25%;
+    --brand-olive: 79 41% 29%;
+    --brand-neptune: 190 23% 54%;
+    --brand-blue-zodiac: 221 20% 29%;
+    --brand-woodland: 60 7% 33%;
+    --brand-delta: 60 4% 56%;
+    --brand-bordeaux: 348 55% 29%;
+    --brand-tangerine: 24 83% 53%;
+    --brand-harvest: 36 82% 66%;
   }
 }
 
@@ -54,6 +64,10 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    background-image:
+      radial-gradient(circle at top left, hsl(var(--brand-neptune) / 0.14), transparent 26%),
+      radial-gradient(circle at top right, hsl(var(--brand-harvest) / 0.14), transparent 24%),
+      linear-gradient(180deg, hsl(var(--background)), hsl(var(--background)));
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -68,6 +82,46 @@
 }
 
 @layer utilities {
+  .brand-panel {
+    background:
+      linear-gradient(145deg, hsl(var(--card) / 0.94), hsl(var(--secondary) / 0.55)),
+      linear-gradient(180deg, hsl(var(--card)), hsl(var(--card)));
+    box-shadow:
+      0 18px 40px -24px hsl(var(--brand-blue-zodiac) / 0.28),
+      inset 0 1px 0 hsl(0 0% 100% / 0.55);
+  }
+
+  .brand-section {
+    background:
+      radial-gradient(circle at top left, hsl(var(--brand-neptune) / 0.2), transparent 30%),
+      linear-gradient(180deg, hsl(var(--background)), hsl(var(--background)));
+  }
+
+  .brand-divider {
+    position: relative;
+  }
+
+  .brand-divider::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 84px;
+    height: 4px;
+    border-radius: 9999px;
+    background: linear-gradient(
+      90deg,
+      hsl(var(--brand-jagger)),
+      hsl(var(--brand-neptune)),
+      hsl(var(--brand-harvest))
+    );
+  }
+
+  .brand-chip {
+    background-color: hsl(var(--brand-neptune) / 0.16);
+    color: hsl(var(--brand-blue-zodiac));
+    border: 1px solid hsl(var(--brand-neptune) / 0.28);
+  }
+
   .scroll-reveal {
     animation: scrollReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
