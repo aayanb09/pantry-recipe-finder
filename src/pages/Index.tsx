@@ -108,33 +108,32 @@ const Index = () => {
           <img
             src={heroImage}
             alt="Fresh vegetables, fruits, beans and grains on a wooden table"
-            className="w-full h-full object-cover object-center scale-[1.02]"
+            className="w-full h-full object-cover"
             loading="eager"
           />
           <div
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(108deg, rgba(63,42,86,0.78) 0%, rgba(83,104,43,0.54) 42%, rgba(111,155,164,0.38) 100%)",
+                "linear-gradient(110deg, rgba(63,42,86,0.96) 0%, rgba(83,104,43,0.86) 45%, rgba(111,155,164,0.72) 100%)",
             }}
           />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.20),transparent_26%),radial-gradient(circle_at_bottom_left,rgba(233,131,0,0.18),transparent_28%)]" />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(59,69,89,0.12),rgba(59,69,89,0.34))]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.24),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(233,131,0,0.22),transparent_30%)]" />
         </div>
         <div className="relative container py-20 md:py-28">
-          <div className="max-w-xl animate-fade-in-up">
+          <div className="max-w-lg animate-fade-in-up">
             <div className="brand-chip inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] mb-5">
               Pantry recipes made practical
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-white leading-[1.1] mb-4" style={{ lineHeight: 1.1 }}>
               What's in your kitchen today?
             </h1>
-            <p className="text-lg text-white/92 mb-8 max-w-lg leading-relaxed drop-shadow-[0_1px_10px_rgba(0,0,0,0.28)]">
+            <p className="text-lg text-white/85 mb-8 max-w-md leading-relaxed">
               Find easy, delicious recipes using the ingredients you already have at home or received from the pantry. All PDFs are made by The Food Bank for Central & Northeast Missouri.
             </p>
             <button
               onClick={scrollToResults}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[rgb(239,182,97)] text-[rgb(59,69,89)] font-semibold shadow-[0_18px_40px_-18px_rgba(0,0,0,0.55)] hover:shadow-xl hover:bg-[rgb(244,192,120)] transition-all active:scale-[0.97]"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[rgb(239,182,97)] text-[rgb(59,69,89)] font-semibold shadow-lg hover:shadow-xl hover:bg-[rgb(244,192,120)] transition-all active:scale-[0.97]"
             >
               Find recipes
               <ArrowDown className="h-4 w-4" />
