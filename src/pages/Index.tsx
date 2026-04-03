@@ -1,7 +1,7 @@
 import { useState, useMemo, useRef, useEffect } from "react";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, Search, X } from "lucide-react";
 import heroImage from "@/assets/hero-food.jpg";
-import { recipes, type Recipe, type RecipeCategory } from "@/data/recipes";
+import { getFilteredRecipes, recipes, type Recipe, type RecipeCategory } from "@/data/recipes";
 import { IngredientPicker } from "@/components/IngredientPicker";
 import { RecipeCard } from "@/components/RecipeCard";
 import { CategoryFilter } from "@/components/CategoryFilter";
@@ -39,29 +39,17 @@ function Section({ children, className = "" }: { children: React.ReactNode; clas
 const Index = () => {
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<RecipeCategory | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const [viewingRecipe, setViewingRecipe] = useState<{ recipe: Recipe; spanish?: boolean } | null>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const filteredRecipes = useMemo(() => {
-    let result = recipes;
-
-    if (selectedCategory) {
-      result = result.filter((r) => r.category === selectedCategory);
-    }
-
-    if (selectedIngredients.length > 0) {
-      result = result
-        .map((r) => ({
-          recipe: r,
-          matchCount: r.ingredients.filter((i) => selectedIngredients.includes(i)).length,
-        }))
-        .filter((r) => r.matchCount > 0)
-        .sort((a, b) => b.matchCount - a.matchCount)
-        .map((r) => r.recipe);
-    }
-
-    return result;
-  }, [selectedIngredients, selectedCategory]);
+    return getFilteredRecipes(recipes, {
+      selectedCategory,
+      selectedIngredients,
+      searchQuery,
+    });
+  }, [searchQuery, selectedIngredients, selectedCategory]);
 
   const scrollToResults = () => {
     resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -84,7 +72,7 @@ const Index = () => {
             <img
               src="/food-bank-badge.svg"
               alt="The Food Bank for Central & Northeast Missouri"
-              className="h-8 w-8 rounded-full"
+              className="h-8 w-auto max-w-none shrink-0"
             />
             <span className="font-semibold text-lg">Meal Maker</span>
           </div>
@@ -147,8 +135,34 @@ const Index = () => {
         <Section className="pb-16 md:pb-24">
           <div className="container">
             {/* Category filter */}
-            <div className="mb-8">
+            <div className="mb-6">
               <CategoryFilter selected={selectedCategory} onChange={setSelectedCategory} />
+            </div>
+
+            <div className="max-w-xl mx-auto mb-8">
+              <label htmlFor="recipe-search" className="block text-sm font-medium mb-2 text-center">
+                Search recipes by name or ingredient
+              </label>
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <input
+                  id="recipe-search"
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Try hummus, lentil soup, zucchini, or tacos"
+                  className="w-full h-12 pl-11 pr-12 rounded-xl bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 transition-shadow text-base"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                    aria-label="Clear recipe search"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* Count */}
@@ -157,11 +171,12 @@ const Index = () => {
                 src="/food-bank-badge.svg"
                 alt=""
                 aria-hidden="true"
-                className="h-5 w-5 rounded-full"
+                className="h-5 w-auto max-w-none shrink-0"
               />
               <span className="text-sm font-medium text-muted-foreground">
                 {filteredRecipes.length} recipe{filteredRecipes.length !== 1 && "s"} found
                 {selectedIngredients.length > 0 && ` for ${selectedIngredients.length} ingredient${selectedIngredients.length !== 1 ? "s" : ""}`}
+                {searchQuery.trim() && ` matching "${searchQuery.trim()}"`}
               </span>
             </div>
 
@@ -182,7 +197,7 @@ const Index = () => {
               <div className="text-center py-16 bg-card rounded-2xl border border-border">
                 <p className="text-xl font-semibold mb-2">No recipes match yet</p>
                 <p className="text-muted-foreground">
-                  Try selecting different ingredients or clearing your filters
+                  Try a different recipe name, select other ingredients, or clear your filters
                 </p>
               </div>
             )}

@@ -29,6 +29,19 @@ export function getViewUrl(fileId: string) {
   return `https://drive.google.com/file/d/${fileId}/view`;
 }
 
+export interface IngredientGroup {
+  id: string;
+  label: string;
+  description: string;
+  ingredients: string[];
+}
+
+export interface RecipeFilters {
+  selectedCategory?: RecipeCategory | null;
+  selectedIngredients?: string[];
+  searchQuery?: string;
+}
+
 export const recipes: Recipe[] = [
   // Vegetables
   { id: "broccoli", title: "2 Ways to Cook Broccoli", ingredients: ["Broccoli", "Olive Oil", "Garlic"], category: "Vegetables", hasSpanish: false, driveFileId: "1mVkN2tpRIB2avLhBX3sHutH5DZVNglgB" },
@@ -150,3 +163,113 @@ export const popularIngredients = [
   "Sweet Potato", "Zucchini", "Bell Peppers", "Cabbage", "Oats",
   "Peanut Butter", "Tortillas", "Broccoli",
 ];
+
+const ingredientGroupDefinitions: Omit<IngredientGroup, "ingredients"> & { ingredients: string[] }[] = [
+  {
+    id: "beans-legumes",
+    label: "Beans & Legumes",
+    description: "Choose the kind of beans, peas, or lentils you have.",
+    ingredients: ["Beans", "Black Beans", "Kidney Beans", "Chickpeas", "Lentils", "Split Peas", "Snap Peas"],
+  },
+  {
+    id: "vegetables",
+    label: "Vegetables",
+    description: "Fresh, frozen, and canned produce.",
+    ingredients: ["Broccoli", "Carrots", "Cabbage", "Cauliflower", "Corn", "Canned Corn", "Canned Green Beans", "Canned Peas", "Tomatoes", "Zucchini", "Bell Peppers", "Sweet Potato", "Russet Potatoes", "Spinach", "Bok Choy", "Butternut Squash", "Eggplant", "Cucumbers"],
+  },
+  {
+    id: "fruit",
+    label: "Fruit",
+    description: "Whole fruit and fruit mixes.",
+    ingredients: ["Apples", "Bananas", "Oranges", "Peaches", "Pumpkin Puree", "Pumpkin", "Mango", "Mixed Fruit", "Dates"],
+  },
+  {
+    id: "grains-starches",
+    label: "Grains & Starches",
+    description: "Pasta, rice, oats, and other pantry staples.",
+    ingredients: ["Rice", "Pasta", "Macaroni", "Oats", "Oatmeal", "Barley", "Ramen Noodles", "Flatbread", "Tortillas", "Granola", "Flour", "Cornstarch"],
+  },
+  {
+    id: "protein-dairy",
+    label: "Protein & Dairy",
+    description: "Meat, eggs, cheese, and creamy basics.",
+    ingredients: ["Chicken", "Ground Beef", "Beef", "Ground Bison", "Turkey", "Sausage", "Vienna Sausages", "Eggs", "Cheese", "Milk", "Yogurt", "Cream Cheese", "Peanut Butter", "Tahini"],
+  },
+  {
+    id: "flavorings",
+    label: "Seasonings & Sauces",
+    description: "Aromatics, sauces, oils, and flavor builders.",
+    ingredients: ["Onion", "Garlic", "Olive Oil", "Butter", "Honey", "Cinnamon", "Lemon", "Lime", "Salsa", "Soy Sauce", "Sesame Oil", "Vinegar", "Hot Sauce", "Taco Seasoning", "Enchilada Sauce", "Pizza Sauce"],
+  },
+];
+
+export const ingredientGroups: IngredientGroup[] = ingredientGroupDefinitions
+  .map((group) => ({
+    ...group,
+    ingredients: group.ingredients.filter((ingredient) => allIngredients.includes(ingredient)),
+  }))
+  .filter((group) => group.ingredients.length > 0);
+
+export function getFilteredRecipes(
+  allRecipes: Recipe[],
+  {
+    selectedCategory = null,
+    selectedIngredients = [],
+    searchQuery = "",
+  }: RecipeFilters = {},
+) {
+  const normalizedQuery = searchQuery.trim().toLowerCase();
+
+  return allRecipes
+    .map((recipe) => {
+      const ingredientMatchCount = recipe.ingredients.filter((ingredient) =>
+        selectedIngredients.includes(ingredient),
+      ).length;
+
+      const title = recipe.title.toLowerCase();
+      const ingredientMatchesQuery = recipe.ingredients.some((ingredient) =>
+        ingredient.toLowerCase().includes(normalizedQuery),
+      );
+      const categoryMatchesQuery = recipe.category.toLowerCase().includes(normalizedQuery);
+      const titleStartsWithQuery = normalizedQuery.length > 0 && title.startsWith(normalizedQuery);
+      const titleIncludesQuery = normalizedQuery.length > 0 && title.includes(normalizedQuery);
+      const searchScore = normalizedQuery.length === 0
+        ? 0
+        : titleStartsWithQuery
+          ? 3
+          : titleIncludesQuery
+            ? 2
+            : ingredientMatchesQuery || categoryMatchesQuery
+              ? 1
+              : 0;
+
+      return { recipe, ingredientMatchCount, searchScore };
+    })
+    .filter(({ recipe, ingredientMatchCount, searchScore }) => {
+      if (selectedCategory && recipe.category !== selectedCategory) {
+        return false;
+      }
+
+      if (selectedIngredients.length > 0 && ingredientMatchCount === 0) {
+        return false;
+      }
+
+      if (normalizedQuery && searchScore === 0) {
+        return false;
+      }
+
+      return true;
+    })
+    .sort((a, b) => {
+      if (b.searchScore !== a.searchScore) {
+        return b.searchScore - a.searchScore;
+      }
+
+      if (b.ingredientMatchCount !== a.ingredientMatchCount) {
+        return b.ingredientMatchCount - a.ingredientMatchCount;
+      }
+
+      return a.recipe.title.localeCompare(b.recipe.title);
+    })
+    .map(({ recipe }) => recipe);
+}
