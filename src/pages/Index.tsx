@@ -66,13 +66,13 @@ const Index = () => {
         />
       )}
       {/* Nav */}
-      <header className="sticky top-0 z-50 bg-background/90 backdrop-blur-sm border-b border-border">
-        <div className="container flex items-center justify-between h-14">
-          <div className="flex items-center gap-2">
+      <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-sm">
+        <div className="container flex min-h-20 items-center justify-between gap-4 py-3">
+          <div className="flex items-center gap-3">
             <img
               src="/food-bank-badge.svg"
               alt="The Food Bank for Central & Northeast Missouri"
-              className="h-8 w-auto max-w-none shrink-0"
+              className="h-10 w-auto max-w-none shrink-0 md:h-12"
             />
             <span className="font-semibold text-lg">Meal Maker</span>
           </div>
@@ -104,7 +104,7 @@ const Index = () => {
               What's in your kitchen today?
             </h1>
             <p className="text-lg text-white/85 mb-8 max-w-md leading-relaxed">
-              Find easy, delicious recipes using the ingredients you already have at home or received from the pantry. All PDFs are made by the Food Bank for Central and Northeast Missouri.
+              Find easy, delicious recipes using the ingredients you already have at home or received from the pantry. All PDFs are made by The Food Bank for Central & Northeast Missouri.
             </p>
             <button
               onClick={scrollToResults}
