@@ -66,7 +66,7 @@ const Index = () => {
         />
       )}
       {/* Nav */}
-      <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-sm">
+      <header className="brand-panel sticky top-0 z-50 border-b border-border">
         <div className="container flex min-h-24 flex-wrap items-center justify-between gap-x-4 gap-y-3 py-4 md:flex-nowrap">
           <div className="flex items-center gap-3">
             <img
@@ -74,13 +74,16 @@ const Index = () => {
               alt="The Food Bank for Central & Northeast Missouri"
               className="h-14 w-14 shrink-0 object-contain md:h-16 md:w-16"
             />
-            <span className="font-semibold text-lg">Meal Maker</span>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary/80">Meal Maker</p>
+              <p className="text-sm text-muted-foreground">Pantry recipes made simple</p>
+            </div>
           </div>
           <a
             href="https://drive.google.com/drive/folders/1JDEg1DdvElV0Y1bl4U9n8MI3ANX_lKv1"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            className="inline-flex items-center rounded-full border border-primary/15 bg-card/80 px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             Browse all PDFs →
           </a>
@@ -96,19 +99,22 @@ const Index = () => {
             className="w-full h-full object-cover"
             loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-foreground/85 via-foreground/70 to-foreground/40" />
+          <div className="brand-hero-overlay absolute inset-0" />
         </div>
         <div className="relative container py-20 md:py-28">
           <div className="max-w-lg animate-fade-in-up">
+            <p className="mb-4 inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-white/85">
+              Food Bank Recipe Finder
+            </p>
             <h1 className="text-4xl md:text-5xl font-bold text-white leading-[1.1] mb-4" style={{ lineHeight: 1.1 }}>
               What's in your kitchen today?
             </h1>
-            <p className="text-lg text-white/85 mb-8 max-w-md leading-relaxed">
+            <p className="text-lg text-white/88 mb-8 max-w-md leading-relaxed">
               Find easy, delicious recipes using the ingredients you already have at home or received from the pantry. All PDFs are made by The Food Bank for Central & Northeast Missouri.
             </p>
             <button
               onClick={scrollToResults}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent text-accent-foreground font-semibold shadow-lg hover:shadow-xl transition-all active:scale-[0.97]"
+              className="inline-flex items-center gap-2 rounded-xl bg-secondary px-6 py-3 font-semibold text-secondary-foreground shadow-lg transition-all hover:bg-secondary/90 hover:shadow-xl active:scale-[0.97]"
             >
               Find recipes
               <ArrowDown className="h-4 w-4" />
@@ -120,7 +126,7 @@ const Index = () => {
       {/* Ingredient Picker Section */}
       <Section className="py-12 md:py-16">
         <div className="container">
-          <div className="text-center mb-8">
+          <div className="mb-8 text-center">
             <h2 className="text-2xl md:text-3xl font-bold mb-2">Select your ingredients</h2>
             <p className="text-muted-foreground">
               Pick what you have and we'll find matching recipes
@@ -139,8 +145,8 @@ const Index = () => {
               <CategoryFilter selected={selectedCategory} onChange={setSelectedCategory} />
             </div>
 
-            <div className="max-w-xl mx-auto mb-8">
-              <label htmlFor="recipe-search" className="block text-sm font-medium mb-2 text-center">
+            <div className="mx-auto mb-8 max-w-xl">
+              <label htmlFor="recipe-search" className="mb-2 block text-center text-sm font-medium">
                 Search recipes by name or ingredient
               </label>
               <div className="relative">
@@ -151,7 +157,7 @@ const Index = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Try hummus, lentil soup, zucchini, or tacos"
-                  className="w-full h-12 pl-11 pr-12 rounded-xl bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 transition-shadow text-base"
+                  className="brand-surface w-full h-12 rounded-xl border border-border pl-11 pr-12 text-base text-foreground placeholder:text-muted-foreground transition-shadow focus:outline-none focus:ring-2 focus:ring-primary/30"
                 />
                 {searchQuery && (
                   <button
@@ -166,7 +172,7 @@ const Index = () => {
             </div>
 
             {/* Count */}
-            <div className="flex items-center gap-2 mb-6">
+            <div className="mb-6 flex items-center gap-2">
               <img
                 src="/food-bank-badge.svg"
                 alt=""
@@ -194,7 +200,7 @@ const Index = () => {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-16 bg-card rounded-2xl border border-border">
+              <div className="brand-surface text-center py-16 rounded-2xl border border-border">
                 <p className="text-xl font-semibold mb-2">No recipes match yet</p>
                 <p className="text-muted-foreground">
                   Try a different recipe name, select other ingredients, or clear your filters
@@ -214,7 +220,7 @@ const Index = () => {
               href="https://drive.google.com/drive/folders/1JDEg1DdvElV0Y1bl4U9n8MI3ANX_lKv1"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary hover:underline ml-1"
+              className="ml-1 font-medium text-primary hover:underline"
             >
               View full recipe library
             </a>

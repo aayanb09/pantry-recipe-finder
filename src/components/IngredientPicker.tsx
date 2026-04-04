@@ -52,7 +52,7 @@ export function IngredientPicker({ selected, onChange }: IngredientPickerProps) 
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div className="mx-auto w-full max-w-4xl">
       <div className="relative mb-5">
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
         <input
@@ -60,7 +60,7 @@ export function IngredientPicker({ selected, onChange }: IngredientPickerProps) 
           value={search}
           onChange={(event) => setSearch(event.target.value)}
           placeholder="Search for an ingredient or browse categories below"
-          className="w-full h-12 pl-12 pr-4 rounded-xl bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 transition-shadow text-base"
+          className="brand-surface h-12 w-full rounded-xl border border-border pl-12 pr-4 text-base text-foreground placeholder:text-muted-foreground transition-shadow focus:outline-none focus:ring-2 focus:ring-primary/30"
         />
       </div>
 
@@ -70,7 +70,7 @@ export function IngredientPicker({ selected, onChange }: IngredientPickerProps) 
             <button
               key={ingredient}
               onClick={() => toggleIngredient(ingredient)}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-accent text-accent-foreground text-sm font-medium transition-all hover:opacity-90 active:scale-[0.97]"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-sm font-medium text-accent-foreground transition-all hover:brightness-105 active:scale-[0.97]"
             >
               {ingredient}
               <X className="h-3.5 w-3.5" />
@@ -78,7 +78,7 @@ export function IngredientPicker({ selected, onChange }: IngredientPickerProps) 
           ))}
           <button
             onClick={() => onChange([])}
-            className="px-3.5 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="rounded-lg px-3.5 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             Clear all
           </button>
@@ -95,7 +95,7 @@ export function IngredientPicker({ selected, onChange }: IngredientPickerProps) 
                 <button
                   key={ingredient}
                   onClick={() => toggleIngredient(ingredient)}
-                  className="px-3.5 py-2 rounded-lg bg-secondary text-secondary-foreground text-sm font-medium border border-transparent hover:border-primary/30 hover:shadow-sm transition-all active:scale-[0.97]"
+                  className="rounded-lg border border-transparent bg-secondary px-3.5 py-2 text-sm font-medium text-secondary-foreground transition-all hover:border-primary/30 hover:shadow-sm active:scale-[0.97]"
                 >
                   {ingredient}
                 </button>
@@ -119,8 +119,8 @@ export function IngredientPicker({ selected, onChange }: IngredientPickerProps) 
                 open={isOpen}
                 onOpenChange={() => toggleGroup(group.id)}
               >
-                <div className="rounded-2xl border border-border bg-card shadow-sm overflow-hidden">
-                  <CollapsibleTrigger className="flex w-full items-start justify-between gap-4 px-5 py-4 text-left hover:bg-muted/35 transition-colors">
+                <div className="brand-surface overflow-hidden rounded-2xl border border-border">
+                  <CollapsibleTrigger className="flex w-full items-start justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-muted/40">
                     <div>
                       <p className="text-base font-semibold">{group.label}</p>
                       <p className="text-sm text-muted-foreground">{group.description}</p>
@@ -137,8 +137,8 @@ export function IngredientPicker({ selected, onChange }: IngredientPickerProps) 
                           onClick={() => toggleIngredient(ingredient)}
                           className={`px-3.5 py-2 rounded-lg text-sm font-medium border transition-all active:scale-[0.97] ${
                             selected.includes(ingredient)
-                              ? "bg-accent text-accent-foreground border-accent"
-                              : "bg-secondary text-secondary-foreground border-transparent hover:border-primary/30 hover:shadow-sm"
+                              ? "border-accent bg-accent text-accent-foreground"
+                              : "border-transparent bg-secondary text-secondary-foreground hover:border-primary/30 hover:shadow-sm"
                           }`}
                         >
                           {selected.includes(ingredient) ? `${ingredient} ✓` : ingredient}

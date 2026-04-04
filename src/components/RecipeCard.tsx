@@ -29,7 +29,7 @@ export function RecipeCard({ recipe, matchedIngredients, index, onViewPdf }: Rec
 
   return (
     <div
-      className="group bg-card rounded-2xl border border-border p-5 shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in-up"
+      className="brand-surface group animate-fade-in-up rounded-2xl border border-border p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
       style={{ animationDelay: `${Math.min(index * 60, 600)}ms` }}
     >
       {/* Category + Spanish badge */}
@@ -39,7 +39,7 @@ export function RecipeCard({ recipe, matchedIngredients, index, onViewPdf }: Rec
           {recipe.category}
         </span>
         {recipe.hasSpanish && (
-          <span className="ml-auto inline-flex items-center gap-1 text-xs font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-md">
+          <span className="ml-auto inline-flex items-center gap-1 rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
             <Globe className="h-3 w-3" />
             Español
           </span>
@@ -58,7 +58,7 @@ export function RecipeCard({ recipe, matchedIngredients, index, onViewPdf }: Rec
             key={ing}
             className={`text-xs px-2.5 py-1 rounded-md font-medium ${
               matchedIngredients.includes(ing)
-                ? "bg-accent/15 text-accent border border-accent/25"
+                ? "border border-accent/25 bg-accent/15 text-accent"
                 : "bg-muted text-muted-foreground"
             }`}
           >
@@ -75,7 +75,7 @@ export function RecipeCard({ recipe, matchedIngredients, index, onViewPdf }: Rec
             {hasEnglishPdf && (
               <button
                 onClick={() => onViewPdf(recipe)}
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-foreground bg-accent px-3.5 py-2 rounded-lg hover:opacity-90 transition-all active:scale-[0.97]"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-sm font-medium text-accent-foreground transition-all hover:brightness-105 active:scale-[0.97]"
               >
                 <Eye className="h-3.5 w-3.5" />
                 View recipe
@@ -84,7 +84,7 @@ export function RecipeCard({ recipe, matchedIngredients, index, onViewPdf }: Rec
             {hasSpanishPdf && (
               <button
                 onClick={() => onViewPdf(recipe, true)}
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-primary bg-primary/10 px-3 py-2 rounded-lg hover:bg-primary/15 transition-all active:scale-[0.97]"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-primary/10 px-3 py-2 text-sm font-medium text-primary transition-all hover:bg-primary/15 active:scale-[0.97]"
               >
                 <Globe className="h-3.5 w-3.5" />
                 Ver en español

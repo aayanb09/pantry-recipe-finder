@@ -25,7 +25,7 @@ export function CategoryFilter({ selected, onChange }: CategoryFilterProps) {
         className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all active:scale-[0.97] ${
           selected === null
             ? "bg-primary text-primary-foreground shadow-sm"
-            : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+            : "bg-card text-foreground border border-border hover:bg-secondary/65"
         }`}
       >
         All Recipes
@@ -37,7 +37,7 @@ export function CategoryFilter({ selected, onChange }: CategoryFilterProps) {
           className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all active:scale-[0.97] ${
             selected === cat
               ? "bg-primary text-primary-foreground shadow-sm"
-              : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+              : "bg-card text-foreground border border-border hover:bg-secondary/65"
           }`}
         >
           <span className="mr-1.5">{emoji[cat]}</span>

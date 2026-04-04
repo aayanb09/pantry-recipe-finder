@@ -15,7 +15,7 @@ export function RecipeViewer({ recipe, spanish, onClose }: RecipeViewerProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/60 backdrop-blur-sm p-4">
-      <div className="bg-card rounded-2xl shadow-2xl w-full max-w-4xl h-[85vh] flex flex-col overflow-hidden animate-fade-in-up">
+      <div className="brand-surface h-[85vh] w-full max-w-4xl animate-fade-in-up overflow-hidden rounded-2xl border border-border shadow-2xl flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-3 border-b border-border">
           <h2 className="font-semibold text-lg truncate pr-4">
@@ -31,7 +31,7 @@ export function RecipeViewer({ recipe, spanish, onClose }: RecipeViewerProps) {
         </div>
 
         {/* PDF Embed */}
-        <div className="flex-1 bg-muted">
+        <div className="flex-1 bg-muted/80">
           <iframe
             src={getPreviewUrl(fileId)}
             className="w-full h-full border-0"
