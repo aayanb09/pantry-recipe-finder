@@ -67,12 +67,12 @@ const Index = () => {
       )}
       {/* Nav */}
       <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-sm">
-        <div className="container flex min-h-20 items-center justify-between gap-4 py-3">
+        <div className="container flex min-h-24 flex-wrap items-center justify-between gap-x-4 gap-y-3 py-4 md:flex-nowrap">
           <div className="flex items-center gap-3">
             <img
-              src="/food-bank-badge.svg"
+              src="/food-bank-logo.png"
               alt="The Food Bank for Central & Northeast Missouri"
-              className="h-10 w-auto max-w-none shrink-0 md:h-12"
+              className="h-14 w-14 shrink-0 object-contain md:h-16 md:w-16"
             />
             <span className="font-semibold text-lg">Meal Maker</span>
           </div>
@@ -80,7 +80,7 @@ const Index = () => {
             href="https://drive.google.com/drive/folders/1JDEg1DdvElV0Y1bl4U9n8MI3ANX_lKv1"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             Browse all PDFs →
           </a>
