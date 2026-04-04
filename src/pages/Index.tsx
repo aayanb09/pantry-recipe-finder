@@ -109,7 +109,7 @@ const Index = () => {
             <h1 className="text-4xl md:text-5xl font-bold text-white leading-[1.1] mb-4" style={{ lineHeight: 1.1 }}>
               What's in your kitchen today?
             </h1>
-            <p className="text-lg text-white/88 mb-8 max-w-md leading-relaxed">
+            <p className="mb-8 max-w-md text-lg leading-relaxed text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]">
               Find easy, delicious recipes using the ingredients you already have at home or received from the pantry. All PDFs are made by The Food Bank for Central & Northeast Missouri.
             </p>
             <button

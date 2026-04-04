@@ -14,7 +14,7 @@ export function RecipeViewer({ recipe, spanish, onClose }: RecipeViewerProps) {
   if (!fileId) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/60 backdrop-blur-sm p-4">
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-foreground/60 p-4 backdrop-blur-sm">
       <div className="brand-surface h-[85vh] w-full max-w-4xl animate-fade-in-up overflow-hidden rounded-2xl border border-border shadow-2xl flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-3 border-b border-border">
