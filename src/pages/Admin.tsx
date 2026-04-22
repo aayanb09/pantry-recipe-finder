@@ -307,16 +307,6 @@ const Admin = () => {
             </p>
             <h1 className="mb-3 text-4xl font-bold leading-tight">{t("admin.loginTitle")}</h1>
             <p className="max-w-xl text-base text-muted-foreground">{t("admin.loginBody")}</p>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              <div className="rounded-2xl border border-border bg-card/70 p-5">
-                <p className="text-sm font-semibold">{t("admin.loginSharedBackend")}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{t("admin.loginSharedBackendBody")}</p>
-              </div>
-              <div className="rounded-2xl border border-border bg-card/70 p-5">
-                <p className="text-sm font-semibold">{t("admin.loginProtectedRoute")}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{t("admin.loginProtectedRouteBody")}</p>
-              </div>
-            </div>
           </div>
 
           <div className="brand-surface w-full max-w-md rounded-[2rem] border border-border p-8 shadow-[0_20px_60px_rgba(59,69,89,0.08)]">

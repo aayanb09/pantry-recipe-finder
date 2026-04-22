@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { RecipeCategory, RecipeHealthGoal } from "@/data/recipes";
 
-export type LanguageCode = "en" | "es" | "fr" | "de" | "ar" | "zh" | "hi" | "vi";
+export type LanguageCode = "en" | "es";
 
 interface LanguageOption {
   code: LanguageCode;
@@ -25,12 +25,6 @@ const LANGUAGE_STORAGE_KEY = "meal-maker-language";
 export const languageOptions: LanguageOption[] = [
   { code: "en", label: "English" },
   { code: "es", label: "Español" },
-  { code: "fr", label: "Français" },
-  { code: "de", label: "Deutsch" },
-  { code: "ar", label: "العربية" },
-  { code: "zh", label: "中文" },
-  { code: "hi", label: "हिन्दी" },
-  { code: "vi", label: "Tiếng Việt" },
 ];
 
 const categoriesByLanguage: Record<LanguageCode, Record<RecipeCategory, string>> = {
@@ -56,72 +50,6 @@ const categoriesByLanguage: Record<LanguageCode, Record<RecipeCategory, string>>
     "Desserts": "Postres",
     "Sauces & Dips": "Salsas y dips",
   },
-  fr: {
-    "Vegetables": "Légumes",
-    "Fruits": "Fruits",
-    "Beans & Legumes": "Haricots et légumineuses",
-    "Grains & Pasta": "Céréales et pâtes",
-    "Protein": "Protéines",
-    "Soups & Stews": "Soupes et ragoûts",
-    "Snacks & Sides": "Collations et accompagnements",
-    "Desserts": "Desserts",
-    "Sauces & Dips": "Sauces et trempettes",
-  },
-  de: {
-    "Vegetables": "Gemüse",
-    "Fruits": "Obst",
-    "Beans & Legumes": "Bohnen und Hülsenfrüchte",
-    "Grains & Pasta": "Getreide und Pasta",
-    "Protein": "Protein",
-    "Soups & Stews": "Suppen und Eintöpfe",
-    "Snacks & Sides": "Snacks und Beilagen",
-    "Desserts": "Desserts",
-    "Sauces & Dips": "Saucen und Dips",
-  },
-  ar: {
-    "Vegetables": "خضروات",
-    "Fruits": "فواكه",
-    "Beans & Legumes": "فاصوليا وبقوليات",
-    "Grains & Pasta": "حبوب ومعكرونة",
-    "Protein": "بروتين",
-    "Soups & Stews": "شوربات ويخنات",
-    "Snacks & Sides": "وجبات خفيفة وأطباق جانبية",
-    "Desserts": "حلويات",
-    "Sauces & Dips": "صلصات وتغميسات",
-  },
-  zh: {
-    "Vegetables": "蔬菜",
-    "Fruits": "水果",
-    "Beans & Legumes": "豆类与荚果",
-    "Grains & Pasta": "谷物与意面",
-    "Protein": "蛋白质",
-    "Soups & Stews": "汤与炖菜",
-    "Snacks & Sides": "小吃与配菜",
-    "Desserts": "甜点",
-    "Sauces & Dips": "酱汁与蘸酱",
-  },
-  hi: {
-    "Vegetables": "सब्जियां",
-    "Fruits": "फल",
-    "Beans & Legumes": "बीन्स और दालें",
-    "Grains & Pasta": "अनाज और पास्ता",
-    "Protein": "प्रोटीन",
-    "Soups & Stews": "सूप और स्ट्यू",
-    "Snacks & Sides": "नाश्ते और साथ के व्यंजन",
-    "Desserts": "मिठाइयाँ",
-    "Sauces & Dips": "सॉस और डिप",
-  },
-  vi: {
-    "Vegetables": "Rau củ",
-    "Fruits": "Trái cây",
-    "Beans & Legumes": "Đậu và họ đậu",
-    "Grains & Pasta": "Ngũ cốc và mì",
-    "Protein": "Chất đạm",
-    "Soups & Stews": "Súp và món hầm",
-    "Snacks & Sides": "Món ăn nhẹ và món kèm",
-    "Desserts": "Tráng miệng",
-    "Sauces & Dips": "Nước sốt và món chấm",
-  },
 };
 
 const healthGoalLabels: Record<LanguageCode, Record<RecipeHealthGoal, string>> = {
@@ -137,42 +65,6 @@ const healthGoalLabels: Record<LanguageCode, Record<RecipeHealthGoal, string>> =
     "High Fiber": "Alto en fibra",
     "Protein Rich": "Rico en proteína",
   },
-  fr: {
-    "Heart Healthy": "Bon pour le coeur",
-    "Diabetes Friendly": "Adapté au diabète",
-    "High Fiber": "Riche en fibres",
-    "Protein Rich": "Riche en protéines",
-  },
-  de: {
-    "Heart Healthy": "Herzgesund",
-    "Diabetes Friendly": "Diabetesfreundlich",
-    "High Fiber": "Ballaststoffreich",
-    "Protein Rich": "Proteinreich",
-  },
-  ar: {
-    "Heart Healthy": "صحي للقلب",
-    "Diabetes Friendly": "مناسب لمرضى السكري",
-    "High Fiber": "غني بالألياف",
-    "Protein Rich": "غني بالبروتين",
-  },
-  zh: {
-    "Heart Healthy": "护心健康",
-    "Diabetes Friendly": "适合糖尿病人",
-    "High Fiber": "高纤维",
-    "Protein Rich": "高蛋白",
-  },
-  hi: {
-    "Heart Healthy": "हृदय के लिए अच्छा",
-    "Diabetes Friendly": "मधुमेह के अनुकूल",
-    "High Fiber": "उच्च फाइबर",
-    "Protein Rich": "प्रोटीन से भरपूर",
-  },
-  vi: {
-    "Heart Healthy": "Tốt cho tim mạch",
-    "Diabetes Friendly": "Phù hợp cho tiểu đường",
-    "High Fiber": "Giàu chất xơ",
-    "Protein Rich": "Giàu protein",
-  },
 };
 
 const healthGoalDescriptions: Record<LanguageCode, Record<RecipeHealthGoal, string>> = {
@@ -187,42 +79,6 @@ const healthGoalDescriptions: Record<LanguageCode, Record<RecipeHealthGoal, stri
     "Diabetes Friendly": "Recetas con más fibra, ingredientes salados y menos dulces.",
     "High Fiber": "Recetas basadas en frijoles, lentejas, verduras, frutas o avena.",
     "Protein Rich": "Recetas con frijoles, lentejas, lácteos, huevos, nueces o carne como ingrediente principal.",
-  },
-  fr: {
-    "Heart Healthy": "Recettes axées sur les légumes, les haricots et des matières grasses plus légères.",
-    "Diabetes Friendly": "Recettes avec plus de fibres, des ingrédients salés et moins de sucré.",
-    "High Fiber": "Recettes à base de haricots, lentilles, légumes, fruits ou avoine.",
-    "Protein Rich": "Recettes avec haricots, lentilles, produits laitiers, oeufs, noix ou viande comme ingrédient clé.",
-  },
-  de: {
-    "Heart Healthy": "Rezepte mit Gemüse, Bohnen und leichteren Kochfetten.",
-    "Diabetes Friendly": "Rezepte mit mehr Ballaststoffen, herzhaften Zutaten und weniger Süßem.",
-    "High Fiber": "Rezepte mit Bohnen, Linsen, Gemüse, Obst oder Hafer.",
-    "Protein Rich": "Rezepte mit Bohnen, Linsen, Milchprodukten, Eiern, Nüssen oder Fleisch als Hauptzutat.",
-  },
-  ar: {
-    "Heart Healthy": "وصفات تركز على الخضار والبقول ودهون الطهي الأخف.",
-    "Diabetes Friendly": "وصفات أكثر غنى بالألياف والمكونات المالحة وأقل حلاوة.",
-    "High Fiber": "وصفات تعتمد على الفاصوليا والعدس والخضار والفاكهة أو الشوفان.",
-    "Protein Rich": "وصفات تحتوي على الفاصوليا أو العدس أو الألبان أو البيض أو المكسرات أو اللحم كمكون أساسي.",
-  },
-  zh: {
-    "Heart Healthy": "以蔬菜、豆类和较清淡烹调用油为主的食谱。",
-    "Diabetes Friendly": "富含纤维、偏咸香且甜味较少的食谱。",
-    "High Fiber": "以豆类、扁豆、蔬菜、水果或燕麦为主的食谱。",
-    "Protein Rich": "以豆类、扁豆、乳制品、鸡蛋、坚果或肉类为主要食材的食谱。",
-  },
-  hi: {
-    "Heart Healthy": "सब्जियों, बीन्स और हल्के पकाने वाले वसा पर आधारित रेसिपी।",
-    "Diabetes Friendly": "अधिक फाइबर, नमकीन सामग्री और कम मीठेपन वाली रेसिपी।",
-    "High Fiber": "बीन्स, दाल, सब्जियों, फलों या ओट्स पर आधारित रेसिपी।",
-    "Protein Rich": "बीन्स, दाल, डेयरी, अंडे, मेवे या मांस को मुख्य सामग्री बनाने वाली रेसिपी।",
-  },
-  vi: {
-    "Heart Healthy": "Công thức tập trung vào rau củ, đậu và chất béo nấu ăn nhẹ hơn.",
-    "Diabetes Friendly": "Công thức nhiều chất xơ hơn, vị mặn hơn và ít ngọt hơn.",
-    "High Fiber": "Công thức dựa trên đậu, đậu lăng, rau củ, trái cây hoặc yến mạch.",
-    "Protein Rich": "Công thức có đậu, đậu lăng, sữa, trứng, hạt hoặc thịt là thành phần chính.",
   },
 };
 
@@ -243,12 +99,6 @@ const ingredientGroupLabels: Record<LanguageCode, Record<string, string>> = {
     "protein-dairy": "Proteína y lácteos",
     flavorings: "Condimentos y salsas",
   },
-  fr: {},
-  de: {},
-  ar: {},
-  zh: {},
-  hi: {},
-  vi: {},
 };
 
 const ingredientGroupDescriptions: Record<LanguageCode, Record<string, string>> = {
@@ -268,12 +118,6 @@ const ingredientGroupDescriptions: Record<LanguageCode, Record<string, string>> 
     "protein-dairy": "Carne, huevos, queso y básicos cremosos.",
     flavorings: "Aromáticos, salsas, aceites y potenciadores de sabor.",
   },
-  fr: {},
-  de: {},
-  ar: {},
-  zh: {},
-  hi: {},
-  vi: {},
 };
 
 type TranslationKey =
@@ -418,12 +262,12 @@ const translations: Record<LanguageCode, Record<TranslationKey, string>> = {
     "notFound.body": "Head back to the finder to browse recipes by ingredient.",
     "notFound.back": "Back to Recipe Finder",
     "admin.setupEyebrow": "Backend Setup Needed",
-    "admin.setupTitle": "The admin dashboard needs Supabase configuration.",
-    "admin.setupBody": "Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY, then create the recipes table and at least one admin mapping.",
+    "admin.setupTitle": "The admin dashboard needs backend configuration.",
+    "admin.setupBody": "Configure the backend settings and database, then create the recipes table and at least one admin mapping.",
     "admin.loadingSession": "Checking admin session...",
     "admin.loginEyebrow": "Admin Access",
     "admin.loginTitle": "Manage recipe sync and pantry content.",
-    "admin.loginBody": "Sign in with your Supabase admin credentials to sync Google Drive files into the shared recipe catalog for everyone.",
+    "admin.loginBody": "Sign in with your admin credentials to sync Google Drive files into the shared recipe catalog for everyone.",
     "admin.loginSharedBackend": "Shared backend",
     "admin.loginSharedBackendBody": "Recipes saved here appear on the live site for every visitor, not just one browser.",
     "admin.loginProtectedRoute": "Protected route",
@@ -431,7 +275,7 @@ const translations: Record<LanguageCode, Record<TranslationKey, string>> = {
     "admin.loginEmail": "Email",
     "admin.loginPassword": "Password",
     "admin.loginButton": "Open admin dashboard",
-    "admin.loginHelp": "Create this user in Supabase Authentication and add them to public.admin_users.",
+    "admin.loginHelp": "Create this user in the authentication system and add them to the admin users list.",
     "admin.backHome": "Back to recipe finder",
     "admin.dashboardTitle": "Admin Dashboard",
     "admin.viewPublicSite": "View public site",
@@ -466,7 +310,7 @@ const translations: Record<LanguageCode, Record<TranslationKey, string>> = {
     "admin.notesTitle": "Helpful admin notes",
     "admin.notesOne": "Uploading a PDF to Google Drive alone still does not publish it. An admin has to sync it here.",
     "admin.notesTwo": "Recipes synced here are stored in the shared backend and appear for all users on the live site.",
-    "admin.notesThree": "Create a user in Supabase Authentication, then add that user's id to public.admin_users to grant admin rights.",
+    "admin.notesThree": "Create a user in the authentication system, then add that user's id to the admin users list to grant admin rights.",
     "admin.sharedRecipes": "Shared recipes",
     "admin.sharedRecipesBody": "These are the recipes already stored in the backend.",
     "admin.loadingRecipes": "Loading recipes...",
@@ -516,12 +360,12 @@ const translations: Record<LanguageCode, Record<TranslationKey, string>> = {
     "notFound.body": "Vuelve al buscador para explorar recetas por ingrediente.",
     "notFound.back": "Volver al buscador",
     "admin.setupEyebrow": "Se necesita configuración",
-    "admin.setupTitle": "El panel admin necesita configuración de Supabase.",
-    "admin.setupBody": "Agrega VITE_SUPABASE_URL y VITE_SUPABASE_ANON_KEY, luego crea la tabla de recetas y al menos una asignación de admin.",
+    "admin.setupTitle": "El panel admin necesita configuración del backend.",
+    "admin.setupBody": "Configura los ajustes del backend y la base de datos, luego crea la tabla de recetas y al menos una asignación de admin.",
     "admin.loadingSession": "Verificando sesión de admin...",
     "admin.loginEyebrow": "Acceso admin",
     "admin.loginTitle": "Administra la sincronización y el contenido.",
-    "admin.loginBody": "Inicia sesión con tus credenciales de Supabase para sincronizar archivos de Google Drive al catálogo compartido.",
+    "admin.loginBody": "Inicia sesión con tus credenciales de admin para sincronizar archivos de Google Drive al catálogo compartido.",
     "admin.loginSharedBackend": "Backend compartido",
     "admin.loginSharedBackendBody": "Las recetas guardadas aquí aparecen para todos los visitantes.",
     "admin.loginProtectedRoute": "Ruta protegida",
@@ -529,7 +373,7 @@ const translations: Record<LanguageCode, Record<TranslationKey, string>> = {
     "admin.loginEmail": "Correo electrónico",
     "admin.loginPassword": "Contraseña",
     "admin.loginButton": "Abrir panel admin",
-    "admin.loginHelp": "Crea este usuario en Supabase Authentication y agrégalo a public.admin_users.",
+    "admin.loginHelp": "Crea este usuario en el sistema de autenticación y agrégalo a la lista de usuarios admin.",
     "admin.backHome": "Volver al buscador",
     "admin.dashboardTitle": "Panel admin",
     "admin.viewPublicSite": "Ver sitio público",
@@ -564,25 +408,16 @@ const translations: Record<LanguageCode, Record<TranslationKey, string>> = {
     "admin.notesTitle": "Notas útiles",
     "admin.notesOne": "Subir un PDF a Google Drive por sí solo no lo publica.",
     "admin.notesTwo": "Las recetas sincronizadas aquí aparecen para todos los usuarios.",
-    "admin.notesThree": "Crea un usuario en Supabase Authentication y luego agrega su id a public.admin_users.",
+    "admin.notesThree": "Crea un usuario en el sistema de autenticación y luego agrega su id a la lista de usuarios admin para conceder derechos de admin.",
     "admin.sharedRecipes": "Recetas compartidas",
     "admin.sharedRecipesBody": "Estas son las recetas almacenadas en el backend.",
     "admin.loadingRecipes": "Cargando recetas...",
     "admin.noBackendRecipes": "Aún no hay recetas en el backend.",
     "admin.removeRecipe": "Eliminar receta",
   },
-  fr: {} as Record<TranslationKey, string>,
-  de: {} as Record<TranslationKey, string>,
-  ar: {} as Record<TranslationKey, string>,
-  zh: {} as Record<TranslationKey, string>,
-  hi: {} as Record<TranslationKey, string>,
-  vi: {} as Record<TranslationKey, string>,
 };
 
 const fallbackLanguage: LanguageCode = "en";
-for (const code of ["fr", "de", "ar", "zh", "hi", "vi"] as LanguageCode[]) {
-  translations[code] = { ...translations.en, "nav.language": languageOptions.find((option) => option.code === code)?.label ?? translations.en["nav.language"] };
-}
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
@@ -603,7 +438,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     if (typeof window === "undefined") return;
     window.localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
     document.documentElement.lang = language;
-    document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
+    document.documentElement.dir = "ltr";
   }, [language]);
 
   const value = useMemo<LanguageContextValue>(() => ({

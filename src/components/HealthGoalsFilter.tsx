@@ -52,9 +52,6 @@ export function HealthGoalsFilter({ selected, onChange }: HealthGoalsFilterProps
                 <Icon className="h-4 w-4" />
                 {translateHealthGoal(goal.id)}
               </span>
-              <span className={`block text-sm ${isSelected ? "text-primary-foreground/85" : "text-muted-foreground"}`}>
-                {translateHealthGoalDescription(goal.id)}
-              </span>
             </button>
           );
         })}
