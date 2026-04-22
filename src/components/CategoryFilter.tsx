@@ -1,5 +1,6 @@
 import type { RecipeCategory } from "@/data/recipes";
 import { allCategories } from "@/data/recipes";
+import { useLanguage } from "@/lib/i18n";
 
 interface CategoryFilterProps {
   selected: RecipeCategory | null;
@@ -7,6 +8,7 @@ interface CategoryFilterProps {
 }
 
 export function CategoryFilter({ selected, onChange }: CategoryFilterProps) {
+  const { t, translateCategory } = useLanguage();
   const emoji: Record<string, string> = {
     "Vegetables": "🥬",
     "Fruits": "🍎",
@@ -16,6 +18,7 @@ export function CategoryFilter({ selected, onChange }: CategoryFilterProps) {
     "Soups & Stews": "🍲",
     "Snacks & Sides": "🥨",
     "Desserts": "🍪",
+    "Sauces & Dips": "🥫",
   };
 
   return (
@@ -28,7 +31,7 @@ export function CategoryFilter({ selected, onChange }: CategoryFilterProps) {
             : "bg-card text-foreground border border-border hover:bg-secondary/65"
         }`}
       >
-        All Recipes
+        {t("category.allRecipes")}
       </button>
       {allCategories.map((cat) => (
         <button
@@ -41,7 +44,7 @@ export function CategoryFilter({ selected, onChange }: CategoryFilterProps) {
           }`}
         >
           <span className="mr-1.5">{emoji[cat]}</span>
-          {cat}
+          {translateCategory(cat)}
         </button>
       ))}
     </div>

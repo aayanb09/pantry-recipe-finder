@@ -31,6 +31,28 @@ describe("recipe PDF mappings", () => {
     expect(matches[0]?.title).toBe("Black Bean & Corn Salad with Lime Dressing");
   });
 
+  it("filters recipes by a selected health goal", () => {
+    const matches = getFilteredRecipes(recipes, {
+      selectedHealthGoals: ["Heart Healthy"],
+    });
+
+    expect(matches.length).toBeGreaterThan(0);
+    expect(matches.every((recipe) => recipe.healthGoals.includes("Heart Healthy"))).toBe(true);
+  });
+
+  it("requires recipes to satisfy every selected health goal", () => {
+    const matches = getFilteredRecipes(recipes, {
+      selectedHealthGoals: ["Heart Healthy", "Diabetes Friendly"],
+    });
+
+    expect(matches.length).toBeGreaterThan(0);
+    expect(matches.every((recipe) => (
+      recipe.healthGoals.includes("Heart Healthy")
+      && recipe.healthGoals.includes("Diabetes Friendly")
+    ))).toBe(true);
+    expect(matches.map((recipe) => recipe.id)).not.toContain("fruit-salad");
+  });
+
   it("provides grouped ingredient options for expandable picker sections", () => {
     const beanGroup = ingredientGroups.find((group) => group.id === "beans-legumes");
 

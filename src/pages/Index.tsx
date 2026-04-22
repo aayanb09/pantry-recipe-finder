@@ -1,11 +1,24 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import { ArrowDown, Search, X } from "lucide-react";
+import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-food.jpg";
-import { getFilteredRecipes, recipes, type Recipe, type RecipeCategory } from "@/data/recipes";
+import {
+  getAllIngredients,
+  getFilteredRecipes,
+  getIngredientGroups,
+  getPopularIngredients,
+  type Recipe,
+  type RecipeCategory,
+  type RecipeHealthGoal,
+} from "@/data/recipes";
 import { IngredientPicker } from "@/components/IngredientPicker";
 import { RecipeCard } from "@/components/RecipeCard";
 import { CategoryFilter } from "@/components/CategoryFilter";
+import { HealthGoalsFilter } from "@/components/HealthGoalsFilter";
+import { LanguageSelector } from "@/components/LanguageSelector";
 import { RecipeViewer } from "@/components/RecipeViewer";
+import { useLanguage } from "@/lib/i18n";
+import { getAllRecipesFromBackend } from "@/lib/recipe-service";
 
 function useScrollReveal() {
   const ref = useRef<HTMLDivElement>(null);
@@ -37,23 +50,71 @@ function Section({ children, className = "" }: { children: React.ReactNode; clas
 }
 
 const Index = () => {
+  const { t } = useLanguage();
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<RecipeCategory | null>(null);
+  const [selectedHealthGoals, setSelectedHealthGoals] = useState<RecipeHealthGoal[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [availableRecipes, setAvailableRecipes] = useState<Recipe[]>([]);
+  const [loadingRecipes, setLoadingRecipes] = useState(true);
   const [viewingRecipe, setViewingRecipe] = useState<{ recipe: Recipe; spanish?: boolean } | null>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadRecipes = async () => {
+      try {
+        const nextRecipes = await getAllRecipesFromBackend();
+        if (!cancelled) {
+          setAvailableRecipes(nextRecipes);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoadingRecipes(false);
+        }
+      }
+    };
+
+    void loadRecipes();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const availableIngredients = useMemo(
+    () => getAllIngredients(availableRecipes),
+    [availableRecipes],
+  );
+
+  const availableIngredientGroups = useMemo(
+    () => getIngredientGroups(availableRecipes),
+    [availableRecipes],
+  );
+
+  const suggestedIngredients = useMemo(
+    () => getPopularIngredients(availableRecipes),
+    [availableRecipes],
+  );
+
   const filteredRecipes = useMemo(() => {
-    return getFilteredRecipes(recipes, {
+    return getFilteredRecipes(availableRecipes, {
       selectedCategory,
       selectedIngredients,
+      selectedHealthGoals,
       searchQuery,
     });
-  }, [searchQuery, selectedIngredients, selectedCategory]);
+  }, [availableRecipes, searchQuery, selectedHealthGoals, selectedIngredients, selectedCategory]);
 
   const scrollToResults = () => {
     resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
+
+  const resultsSummary = t("results.count", {
+    count: filteredRecipes.length,
+    plural: filteredRecipes.length !== 1 ? "s" : "",
+  });
 
   return (
     <div className="min-h-screen bg-background">
@@ -76,17 +137,26 @@ const Index = () => {
             />
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary/80">Meal Maker</p>
-              <p className="text-sm text-muted-foreground">Pantry recipes made simple</p>
+              <p className="text-sm text-muted-foreground">{t("nav.tagline")}</p>
             </div>
           </div>
-          <a
-            href="https://drive.google.com/drive/folders/1JDEg1DdvElV0Y1bl4U9n8MI3ANX_lKv1"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center rounded-full border border-primary/15 bg-card/80 px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Browse all PDFs →
-          </a>
+          <div className="flex items-center gap-3">
+            <a
+              href="https://drive.google.com/drive/folders/1JDEg1DdvElV0Y1bl4U9n8MI3ANX_lKv1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center rounded-full border border-primary/15 bg-card/80 px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {t("nav.browsePdfs")} →
+            </a>
+            <LanguageSelector />
+            <Link
+              to="/admin"
+              className="inline-flex items-center rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {t("nav.admin")}
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -104,19 +174,19 @@ const Index = () => {
         <div className="relative container py-20 md:py-28">
           <div className="max-w-lg animate-fade-in-up">
             <p className="mb-4 inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-white/85">
-              Food Bank Recipe Finder
+              {t("hero.badge")}
             </p>
             <h1 className="text-4xl md:text-5xl font-bold text-white leading-[1.1] mb-4" style={{ lineHeight: 1.1 }}>
-              What's in your kitchen today?
+              {t("hero.title")}
             </h1>
             <p className="mb-8 max-w-md text-lg leading-relaxed text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]">
-              Find easy, delicious recipes using the ingredients you already have at home or received from the pantry. All PDFs are made by The Food Bank for Central & Northeast Missouri.
+              {t("hero.description")}
             </p>
             <button
               onClick={scrollToResults}
               className="inline-flex items-center gap-2 rounded-xl bg-secondary px-6 py-3 font-semibold text-secondary-foreground shadow-lg transition-all hover:bg-secondary/90 hover:shadow-xl active:scale-[0.97]"
             >
-              Find recipes
+              {t("hero.cta")}
               <ArrowDown className="h-4 w-4" />
             </button>
           </div>
@@ -127,12 +197,22 @@ const Index = () => {
       <Section className="py-12 md:py-16">
         <div className="container">
           <div className="mb-8 text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-2">Select your ingredients</h2>
-            <p className="text-muted-foreground">
-              Pick what you have and we'll find matching recipes
-            </p>
+            <h2 className="text-2xl md:text-3xl font-bold mb-2">{t("ingredients.title")}</h2>
+            <p className="text-muted-foreground">{t("ingredients.subtitle")}</p>
           </div>
-          <IngredientPicker selected={selectedIngredients} onChange={setSelectedIngredients} />
+          <IngredientPicker
+            selected={selectedIngredients}
+            allIngredients={availableIngredients}
+            ingredientGroups={availableIngredientGroups}
+            popularIngredients={suggestedIngredients}
+            onChange={setSelectedIngredients}
+          />
+        </div>
+      </Section>
+
+      <Section className="pb-6 md:pb-8">
+        <div className="container">
+          <HealthGoalsFilter selected={selectedHealthGoals} onChange={setSelectedHealthGoals} />
         </div>
       </Section>
 
@@ -147,7 +227,7 @@ const Index = () => {
 
             <div className="mx-auto mb-8 max-w-xl">
               <label htmlFor="recipe-search" className="mb-2 block text-center text-sm font-medium">
-                Search recipes by name or ingredient
+                {t("search.label")}
               </label>
               <div className="relative">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -156,14 +236,14 @@ const Index = () => {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Try hummus, lentil soup, zucchini, or tacos"
+                  placeholder={t("search.placeholder")}
                   className="brand-surface w-full h-12 rounded-xl border border-border pl-11 pr-12 text-base text-foreground placeholder:text-muted-foreground transition-shadow focus:outline-none focus:ring-2 focus:ring-primary/30"
                 />
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery("")}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                    aria-label="Clear recipe search"
+                    aria-label={t("search.clear")}
                   >
                     <X className="h-4 w-4" />
                   </button>
@@ -180,14 +260,17 @@ const Index = () => {
                 className="h-5 w-auto max-w-none shrink-0"
               />
               <span className="text-sm font-medium text-muted-foreground">
-                {filteredRecipes.length} recipe{filteredRecipes.length !== 1 && "s"} found
-                {selectedIngredients.length > 0 && ` for ${selectedIngredients.length} ingredient${selectedIngredients.length !== 1 ? "s" : ""}`}
-                {searchQuery.trim() && ` matching "${searchQuery.trim()}"`}
+                {resultsSummary}
               </span>
             </div>
 
             {/* Grid */}
-            {filteredRecipes.length > 0 ? (
+            {loadingRecipes ? (
+              <div className="brand-surface text-center py-16 rounded-2xl border border-border">
+                <p className="text-xl font-semibold mb-2">{t("results.loadingTitle")}</p>
+                <p className="text-muted-foreground">{t("results.loadingBody")}</p>
+              </div>
+            ) : filteredRecipes.length > 0 ? (
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {filteredRecipes.map((recipe, i) => (
                   <RecipeCard
@@ -201,10 +284,8 @@ const Index = () => {
               </div>
             ) : (
               <div className="brand-surface text-center py-16 rounded-2xl border border-border">
-                <p className="text-xl font-semibold mb-2">No recipes match yet</p>
-                <p className="text-muted-foreground">
-                  Try a different recipe name, select other ingredients, or clear your filters
-                </p>
+                <p className="text-xl font-semibold mb-2">{t("results.emptyTitle")}</p>
+                <p className="text-muted-foreground">{t("results.emptyBody")}</p>
               </div>
             )}
           </div>
@@ -215,14 +296,14 @@ const Index = () => {
       <footer className="border-t border-border py-8">
         <div className="container text-center">
           <p className="text-sm text-muted-foreground">
-            Recipes by The Food Bank for Central & Northeast Missouri · 
+            {t("footer.credit")} · 
             <a
               href="https://drive.google.com/drive/folders/1JDEg1DdvElV0Y1bl4U9n8MI3ANX_lKv1"
               target="_blank"
               rel="noopener noreferrer"
               className="ml-1 font-medium text-primary hover:underline"
             >
-              View full recipe library
+              {t("footer.link")}
             </a>
           </p>
         </div>

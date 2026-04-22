@@ -14,6 +14,7 @@ export interface Recipe {
   title: string;
   ingredients: string[];
   category: RecipeCategory;
+  healthGoals: RecipeHealthGoal[];
   hasSpanish: boolean;
   driveFileId?: string;
   spanishDriveFileId?: string;
@@ -36,13 +37,60 @@ export interface IngredientGroup {
   ingredients: string[];
 }
 
+export type RecipeHealthGoal = "Heart Healthy" | "Diabetes Friendly";
+
+export interface HealthGoalDefinition {
+  id: RecipeHealthGoal;
+  label: string;
+  description: string;
+}
+
 export interface RecipeFilters {
   selectedCategory?: RecipeCategory | null;
   selectedIngredients?: string[];
+  selectedHealthGoals?: RecipeHealthGoal[];
   searchQuery?: string;
 }
 
-export const recipes: Recipe[] = [
+export const healthGoals: HealthGoalDefinition[] = [
+  {
+    id: "Heart Healthy",
+    label: "Heart Healthy",
+    description: "Recipes centered on produce, beans, and lighter cooking fats.",
+  },
+  {
+    id: "Diabetes Friendly",
+    label: "Diabetes Friendly",
+    description: "Recipes with more fiber-forward, savory ingredients and fewer sweets.",
+  },
+];
+
+const recipeHealthGoalMap: Partial<Record<string, RecipeHealthGoal[]>> = {
+  broccoli: ["Heart Healthy", "Diabetes Friendly"],
+  kohlrabi: ["Heart Healthy", "Diabetes Friendly"],
+  tomatoes: ["Heart Healthy", "Diabetes Friendly"],
+  zucchini: ["Heart Healthy", "Diabetes Friendly"],
+  "brussels-sprouts": ["Heart Healthy", "Diabetes Friendly"],
+  cauliflower: ["Heart Healthy", "Diabetes Friendly"],
+  spinach: ["Heart Healthy", "Diabetes Friendly"],
+  chayote: ["Heart Healthy", "Diabetes Friendly"],
+  "bok-choy-salad": ["Heart Healthy", "Diabetes Friendly"],
+  "fresh-bok-choy": ["Heart Healthy", "Diabetes Friendly"],
+  pickles: ["Diabetes Friendly"],
+  "black-beans": ["Heart Healthy", "Diabetes Friendly"],
+  "black-bean-corn-salad": ["Heart Healthy", "Diabetes Friendly"],
+  "four-bean-salad": ["Heart Healthy", "Diabetes Friendly"],
+  "chickpea-salad": ["Heart Healthy", "Diabetes Friendly"],
+  "lentil-soup": ["Heart Healthy", "Diabetes Friendly"],
+  hummus: ["Heart Healthy", "Diabetes Friendly"],
+  "flavorful-hummus": ["Heart Healthy", "Diabetes Friendly"],
+  "cucumber-lime": ["Heart Healthy", "Diabetes Friendly"],
+  "beef-soup": ["Heart Healthy"],
+  "fall-harvest-soup": ["Heart Healthy", "Diabetes Friendly"],
+  "fruit-salad": ["Heart Healthy"],
+};
+
+const baseRecipes: Omit<Recipe, "healthGoals">[] = [
   // Vegetables
   { id: "broccoli", title: "2 Ways to Cook Broccoli", ingredients: ["Broccoli", "Olive Oil", "Garlic"], category: "Vegetables", hasSpanish: false, driveFileId: "1mVkN2tpRIB2avLhBX3sHutH5DZVNglgB" },
   { id: "rutabagas", title: "2 Ways to Cook Rutabagas", ingredients: ["Rutabaga", "Butter", "Onion"], category: "Vegetables", hasSpanish: false, driveFileId: "1AgOWfdCk60x5xqaMOnd0CXr970Lwv8em" },
@@ -141,9 +189,16 @@ export const recipes: Recipe[] = [
 ];
 
 // Extract all unique ingredients sorted
-export const allIngredients = Array.from(
-  new Set(recipes.flatMap((r) => r.ingredients))
-).sort();
+export const recipes: Recipe[] = baseRecipes.map((recipe) => ({
+  ...recipe,
+  healthGoals: recipeHealthGoalMap[recipe.id] ?? [],
+}));
+
+export function getAllIngredients(allRecipes: Recipe[]) {
+  return Array.from(new Set(allRecipes.flatMap((recipe) => recipe.ingredients))).sort();
+}
+
+export const allIngredients = getAllIngredients(recipes);
 
 export const allCategories: RecipeCategory[] = [
   "Vegetables",
@@ -154,9 +209,10 @@ export const allCategories: RecipeCategory[] = [
   "Soups & Stews",
   "Snacks & Sides",
   "Desserts",
+  "Sauces & Dips",
 ];
 
-export const popularIngredients = [
+export const curatedPopularIngredients = [
   "Black Beans", "Rice", "Chickpeas", "Carrots", "Onion", "Garlic",
   "Tomatoes", "Potatoes", "Corn", "Spinach", "Bananas", "Apples",
   "Chicken", "Ground Beef", "Pasta", "Cheese", "Eggs", "Lentils",
@@ -203,18 +259,41 @@ const ingredientGroupDefinitions: Omit<IngredientGroup, "ingredients"> & { ingre
   },
 ];
 
-export const ingredientGroups: IngredientGroup[] = ingredientGroupDefinitions
-  .map((group) => ({
-    ...group,
-    ingredients: group.ingredients.filter((ingredient) => allIngredients.includes(ingredient)),
-  }))
-  .filter((group) => group.ingredients.length > 0);
+export function getPopularIngredients(allRecipes: Recipe[]) {
+  const availableIngredients = getAllIngredients(allRecipes);
+  const curated = curatedPopularIngredients.filter((ingredient) =>
+    availableIngredients.includes(ingredient),
+  );
+
+  if (curated.length >= 12) {
+    return curated;
+  }
+
+  const fallback = availableIngredients.filter((ingredient) => !curated.includes(ingredient));
+  return [...curated, ...fallback].slice(0, 24);
+}
+
+export const popularIngredients = getPopularIngredients(recipes);
+
+export function getIngredientGroups(allRecipes: Recipe[]): IngredientGroup[] {
+  const availableIngredients = getAllIngredients(allRecipes);
+
+  return ingredientGroupDefinitions
+    .map((group) => ({
+      ...group,
+      ingredients: group.ingredients.filter((ingredient) => availableIngredients.includes(ingredient)),
+    }))
+    .filter((group) => group.ingredients.length > 0);
+}
+
+export const ingredientGroups: IngredientGroup[] = getIngredientGroups(recipes);
 
 export function getFilteredRecipes(
   allRecipes: Recipe[],
   {
     selectedCategory = null,
     selectedIngredients = [],
+    selectedHealthGoals = [],
     searchQuery = "",
   }: RecipeFilters = {},
 ) {
@@ -252,6 +331,16 @@ export function getFilteredRecipes(
 
       if (selectedIngredients.length > 0 && ingredientMatchCount === 0) {
         return false;
+      }
+
+      if (selectedHealthGoals.length > 0) {
+        const matchesAllHealthGoals = selectedHealthGoals.every((goal) =>
+          recipe.healthGoals.includes(goal),
+        );
+
+        if (!matchesAllHealthGoals) {
+          return false;
+        }
       }
 
       if (normalizedQuery && searchScore === 0) {

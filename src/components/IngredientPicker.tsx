@@ -1,16 +1,27 @@
 import { useMemo, useState } from "react";
 import { ChevronDown, Search, X } from "lucide-react";
-import { allIngredients, ingredientGroups, popularIngredients } from "@/data/recipes";
+import type { IngredientGroup } from "@/data/recipes";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { useLanguage } from "@/lib/i18n";
 
 interface IngredientPickerProps {
   selected: string[];
+  allIngredients: string[];
+  ingredientGroups: IngredientGroup[];
+  popularIngredients: string[];
   onChange: (ingredients: string[]) => void;
 }
 
 const defaultOpenGroups = ["beans-legumes", "vegetables"];
 
-export function IngredientPicker({ selected, onChange }: IngredientPickerProps) {
+export function IngredientPicker({
+  selected,
+  allIngredients,
+  ingredientGroups,
+  popularIngredients,
+  onChange,
+}: IngredientPickerProps) {
+  const { t } = useLanguage();
   const [search, setSearch] = useState("");
   const [openGroups, setOpenGroups] = useState<string[]>(defaultOpenGroups);
 
@@ -59,7 +70,7 @@ export function IngredientPicker({ selected, onChange }: IngredientPickerProps) 
           type="text"
           value={search}
           onChange={(event) => setSearch(event.target.value)}
-          placeholder="Search for an ingredient or browse categories below"
+          placeholder={t("ingredientPicker.searchPlaceholder")}
           className="brand-surface h-12 w-full rounded-xl border border-border pl-12 pr-4 text-base text-foreground placeholder:text-muted-foreground transition-shadow focus:outline-none focus:ring-2 focus:ring-primary/30"
         />
       </div>
@@ -80,7 +91,7 @@ export function IngredientPicker({ selected, onChange }: IngredientPickerProps) 
             onClick={() => onChange([])}
             className="rounded-lg px-3.5 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
-            Clear all
+            {t("ingredientPicker.clearAll")}
           </button>
         </div>
       )}
@@ -104,7 +115,7 @@ export function IngredientPicker({ selected, onChange }: IngredientPickerProps) 
 
           {filteredIngredients.length === 0 && (
             <p className="text-sm text-muted-foreground text-center py-4">
-              No ingredient names matched that search.
+              {t("ingredientPicker.noMatches")}
             </p>
           )}
         </>
@@ -155,7 +166,7 @@ export function IngredientPicker({ selected, onChange }: IngredientPickerProps) 
 
       {!query && (
         <p className="text-xs text-muted-foreground mt-4 text-center">
-          Start with a category like beans or vegetables, or type to search all {allIngredients.length} ingredients.
+          {t("ingredientPicker.helper", { count: allIngredients.length })}
         </p>
       )}
     </div>

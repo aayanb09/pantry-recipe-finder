@@ -1,6 +1,7 @@
 import { ExternalLink, Globe, FolderOpen, Eye } from "lucide-react";
 import type { Recipe } from "@/data/recipes";
 import { RECIPE_FOLDER_URL, getViewUrl } from "@/data/recipes";
+import { useLanguage } from "@/lib/i18n";
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -10,6 +11,7 @@ interface RecipeCardProps {
 }
 
 export function RecipeCard({ recipe, matchedIngredients, index, onViewPdf }: RecipeCardProps) {
+  const { t, translateCategory, translateHealthGoal } = useLanguage();
   const categoryEmoji: Record<string, string> = {
     "Vegetables": "🥬",
     "Fruits": "🍎",
@@ -36,12 +38,12 @@ export function RecipeCard({ recipe, matchedIngredients, index, onViewPdf }: Rec
       <div className="flex items-center gap-2 mb-3">
         <span className="text-lg">{categoryEmoji[recipe.category] || "📄"}</span>
         <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-          {recipe.category}
+          {translateCategory(recipe.category)}
         </span>
         {recipe.hasSpanish && (
           <span className="ml-auto inline-flex items-center gap-1 rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
             <Globe className="h-3 w-3" />
-            Español
+            {t("recipe.spanish")}
           </span>
         )}
       </div>
@@ -68,6 +70,19 @@ export function RecipeCard({ recipe, matchedIngredients, index, onViewPdf }: Rec
         ))}
       </div>
 
+      {recipe.healthGoals.length > 0 && (
+        <div className="mb-4 flex flex-wrap gap-1.5">
+          {recipe.healthGoals.map((goal) => (
+            <span
+              key={goal}
+              className="rounded-md border border-primary/20 bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary"
+            >
+              {translateHealthGoal(goal)}
+            </span>
+          ))}
+        </div>
+      )}
+
       {/* Actions */}
       <div className="flex flex-wrap items-center gap-3">
         {hasAnyPdf ? (
@@ -78,7 +93,7 @@ export function RecipeCard({ recipe, matchedIngredients, index, onViewPdf }: Rec
                 className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-sm font-medium text-accent-foreground transition-all hover:brightness-105 active:scale-[0.97]"
               >
                 <Eye className="h-3.5 w-3.5" />
-                View recipe
+                {t("recipe.viewRecipe")}
               </button>
             )}
             {hasSpanishPdf && (
@@ -96,7 +111,7 @@ export function RecipeCard({ recipe, matchedIngredients, index, onViewPdf }: Rec
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
             >
-              Open in Drive
+              {t("recipe.openDrive")}
               <ExternalLink className="h-3 w-3" />
             </a>
           </>
@@ -108,7 +123,7 @@ export function RecipeCard({ recipe, matchedIngredients, index, onViewPdf }: Rec
             className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline transition-colors active:scale-[0.97]"
           >
             <FolderOpen className="h-3.5 w-3.5" />
-            Find in recipe library
+            {t("recipe.findLibrary")}
             <ExternalLink className="h-3 w-3" />
           </a>
         )}

@@ -1,6 +1,7 @@
 import { X } from "lucide-react";
 import { getPreviewUrl } from "@/data/recipes";
 import type { Recipe } from "@/data/recipes";
+import { useLanguage } from "@/lib/i18n";
 
 interface RecipeViewerProps {
   recipe: Recipe;
@@ -9,6 +10,7 @@ interface RecipeViewerProps {
 }
 
 export function RecipeViewer({ recipe, spanish, onClose }: RecipeViewerProps) {
+  const { t } = useLanguage();
   const fileId = spanish ? recipe.spanishDriveFileId : recipe.driveFileId;
 
   if (!fileId) return null;
@@ -20,7 +22,7 @@ export function RecipeViewer({ recipe, spanish, onClose }: RecipeViewerProps) {
         <div className="flex items-center justify-between px-5 py-3 border-b border-border">
           <h2 className="font-semibold text-lg truncate pr-4">
             {recipe.title}
-            {spanish && <span className="ml-2 text-sm text-primary font-medium">(Español)</span>}
+            {spanish && <span className="ml-2 text-sm text-primary font-medium">{t("viewer.spanish")}</span>}
           </h2>
           <button
             onClick={onClose}
