@@ -125,7 +125,7 @@ const Admin = () => {
         }
       } catch (error) {
         if (!cancelled) {
-          setSyncStatus(error instanceof Error ? error.message : "Could not load recipe data.");
+          setSyncStatus(error instanceof Error ? error.message : t("admin.statusLoadError"));
         }
       } finally {
         if (!cancelled) {
@@ -164,7 +164,7 @@ const Admin = () => {
       setSession(nextSession);
       setPassword("");
     } catch (error) {
-      setLoginError(error instanceof Error ? error.message : "Could not sign in.");
+      setLoginError(error instanceof Error ? error.message : t("admin.statusSignInError"));
     }
   };
 
@@ -189,8 +189,11 @@ const Admin = () => {
     setDetectedFileIds(fileIds);
     setSyncStatus(
       fileIds.length === 0
-        ? "No Google Drive file IDs were detected."
-        : `Detected ${fileIds.length} file${fileIds.length === 1 ? "" : "s"} from the pasted content.`,
+        ? t("admin.statusNoFiles")
+        : t("admin.statusDetectedFiles", {
+            count: fileIds.length,
+            plural: fileIds.length === 1 ? "" : "s",
+          }),
     );
 
     setDrafts((current) => {
@@ -231,7 +234,7 @@ const Admin = () => {
       .filter(Boolean);
 
     if (!draft.title.trim() || ingredients.length === 0) {
-      setSyncStatus("Each synced recipe needs a title and at least one ingredient.");
+      setSyncStatus(t("admin.statusMissingRecipeFields"));
       return;
     }
 
@@ -251,9 +254,9 @@ const Admin = () => {
     try {
       await saveAdminRecipe(nextRecipe);
       await refreshRecipes();
-      setSyncStatus(`Synced "${nextRecipe.title}" into the shared recipe catalog.`);
+      setSyncStatus(t("admin.statusSyncedRecipe", { title: nextRecipe.title }));
     } catch (error) {
-      setSyncStatus(error instanceof Error ? error.message : "Could not sync this recipe.");
+      setSyncStatus(error instanceof Error ? error.message : t("admin.statusSyncError"));
     }
   };
 
@@ -262,7 +265,7 @@ const Admin = () => {
       await deleteAdminRecipe(recipeId);
       await refreshRecipes();
     } catch (error) {
-      setSyncStatus(error instanceof Error ? error.message : "Could not remove this recipe.");
+      setSyncStatus(error instanceof Error ? error.message : t("admin.statusRemoveError"));
     }
   };
 

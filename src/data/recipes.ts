@@ -37,7 +37,11 @@ export interface IngredientGroup {
   ingredients: string[];
 }
 
-export type RecipeHealthGoal = "Heart Healthy" | "Diabetes Friendly";
+export type RecipeHealthGoal =
+  | "Heart Healthy"
+  | "Diabetes Friendly"
+  | "High Fiber"
+  | "Protein Rich";
 
 export interface HealthGoalDefinition {
   id: RecipeHealthGoal;
@@ -63,31 +67,74 @@ export const healthGoals: HealthGoalDefinition[] = [
     label: "Diabetes Friendly",
     description: "Recipes with more fiber-forward, savory ingredients and fewer sweets.",
   },
+  {
+    id: "High Fiber",
+    label: "High Fiber",
+    description: "Recipes built around beans, lentils, vegetables, fruits, or oats.",
+  },
+  {
+    id: "Protein Rich",
+    label: "Protein Rich",
+    description: "Recipes with beans, lentils, dairy, eggs, nuts, or meat as a key ingredient.",
+  },
 ];
 
 const recipeHealthGoalMap: Partial<Record<string, RecipeHealthGoal[]>> = {
-  broccoli: ["Heart Healthy", "Diabetes Friendly"],
-  kohlrabi: ["Heart Healthy", "Diabetes Friendly"],
-  tomatoes: ["Heart Healthy", "Diabetes Friendly"],
-  zucchini: ["Heart Healthy", "Diabetes Friendly"],
-  "brussels-sprouts": ["Heart Healthy", "Diabetes Friendly"],
-  cauliflower: ["Heart Healthy", "Diabetes Friendly"],
-  spinach: ["Heart Healthy", "Diabetes Friendly"],
-  chayote: ["Heart Healthy", "Diabetes Friendly"],
-  "bok-choy-salad": ["Heart Healthy", "Diabetes Friendly"],
-  "fresh-bok-choy": ["Heart Healthy", "Diabetes Friendly"],
+  broccoli: ["Heart Healthy", "Diabetes Friendly", "High Fiber"],
+  rutabagas: ["Heart Healthy", "High Fiber"],
+  "sweet-potatoes-2": ["Heart Healthy", "High Fiber"],
+  kohlrabi: ["Heart Healthy", "Diabetes Friendly", "High Fiber"],
+  carrots: ["Heart Healthy", "High Fiber"],
+  tomatoes: ["Heart Healthy", "Diabetes Friendly", "High Fiber"],
+  zucchini: ["Heart Healthy", "Diabetes Friendly", "High Fiber"],
+  "bell-peppers": ["Heart Healthy", "Diabetes Friendly", "High Fiber"],
+  "brussels-sprouts": ["Heart Healthy", "Diabetes Friendly", "High Fiber"],
+  "butternut-squash": ["Heart Healthy", "Diabetes Friendly", "High Fiber"],
+  cabbage: ["Heart Healthy", "Diabetes Friendly", "High Fiber"],
+  cauliflower: ["Heart Healthy", "Diabetes Friendly", "High Fiber"],
+  eggplant: ["Heart Healthy", "Diabetes Friendly", "High Fiber"],
+  spinach: ["Heart Healthy", "Diabetes Friendly", "High Fiber"],
+  chayote: ["Heart Healthy", "Diabetes Friendly", "High Fiber"],
+  "baked-sweet-potato-fries": ["Heart Healthy", "High Fiber"],
+  "bok-choy-salad": ["Heart Healthy", "Diabetes Friendly", "High Fiber"],
+  "fresh-bok-choy": ["Heart Healthy", "Diabetes Friendly", "High Fiber"],
   pickles: ["Diabetes Friendly"],
-  "black-beans": ["Heart Healthy", "Diabetes Friendly"],
-  "black-bean-corn-salad": ["Heart Healthy", "Diabetes Friendly"],
-  "four-bean-salad": ["Heart Healthy", "Diabetes Friendly"],
-  "chickpea-salad": ["Heart Healthy", "Diabetes Friendly"],
-  "lentil-soup": ["Heart Healthy", "Diabetes Friendly"],
-  hummus: ["Heart Healthy", "Diabetes Friendly"],
-  "flavorful-hummus": ["Heart Healthy", "Diabetes Friendly"],
+  "mango-salsa": ["Heart Healthy", "Diabetes Friendly", "High Fiber"],
+  "fruit-salad": ["Heart Healthy", "High Fiber"],
+  "green-smoothie": ["Heart Healthy", "High Fiber", "Protein Rich"],
+  "black-beans": ["Heart Healthy", "Diabetes Friendly", "High Fiber", "Protein Rich"],
+  "snap-peas": ["Heart Healthy", "Diabetes Friendly", "High Fiber"],
+  "black-bean-corn-salad": ["Heart Healthy", "Diabetes Friendly", "High Fiber", "Protein Rich"],
+  "black-bean-enchiladas": ["High Fiber", "Protein Rich"],
+  "black-bean-fajita-pasta": ["High Fiber", "Protein Rich"],
+  "beans-rice-casserole": ["High Fiber", "Protein Rich"],
+  "four-bean-salad": ["Heart Healthy", "Diabetes Friendly", "High Fiber", "Protein Rich"],
+  "chickpea-salad": ["Heart Healthy", "Diabetes Friendly", "High Fiber", "Protein Rich"],
+  "baked-falafel": ["Heart Healthy", "Diabetes Friendly", "High Fiber", "Protein Rich"],
+  "chana-masala": ["Heart Healthy", "Diabetes Friendly", "High Fiber", "Protein Rich"],
+  "brown-lentil-curry": ["Heart Healthy", "Diabetes Friendly", "High Fiber", "Protein Rich"],
+  "lentil-soup": ["Heart Healthy", "Diabetes Friendly", "High Fiber", "Protein Rich"],
+  "lentils-split-peas": ["Heart Healthy", "Diabetes Friendly", "High Fiber", "Protein Rich"],
+  "pb-oatmeal": ["High Fiber", "Protein Rich"],
+  "barley-jambalaya": ["High Fiber", "Protein Rich"],
+  "baked-oat-cheesecake": ["High Fiber", "Protein Rich"],
+  "asian-beef-pasta": ["Protein Rich"],
+  "turkey-tacos": ["Protein Rich"],
+  "bison-meatballs": ["Protein Rich"],
+  "bison-tacos": ["Protein Rich"],
+  "chicken-noodle-soup": ["Protein Rich"],
+  "fiesta-taco-bake": ["Protein Rich"],
+  "beef-soup": ["Protein Rich"],
+  "eggplant-recipes": ["Heart Healthy", "Diabetes Friendly", "High Fiber"],
+  "fall-harvest-soup": ["Heart Healthy", "Diabetes Friendly", "High Fiber"],
+  walnuts: ["Heart Healthy", "Diabetes Friendly", "High Fiber", "Protein Rich"],
+  hummus: ["Heart Healthy", "Diabetes Friendly", "High Fiber", "Protein Rich"],
+  "flavorful-hummus": ["Heart Healthy", "Diabetes Friendly", "High Fiber", "Protein Rich"],
+  "chocolate-hummus": ["Protein Rich"],
   "cucumber-lime": ["Heart Healthy", "Diabetes Friendly"],
-  "beef-soup": ["Heart Healthy"],
-  "fall-harvest-soup": ["Heart Healthy", "Diabetes Friendly"],
-  "fruit-salad": ["Heart Healthy"],
+  "black-bean-brownies": ["High Fiber", "Protein Rich"],
+  "cinnamon-apple-cookies": ["High Fiber"],
+  "chocolate-zucchini-muffins": ["High Fiber", "Protein Rich"],
 };
 
 const baseRecipes: Omit<Recipe, "healthGoals">[] = [

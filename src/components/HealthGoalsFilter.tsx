@@ -1,4 +1,4 @@
-import { HeartPulse, Activity } from "lucide-react";
+import { HeartPulse, Activity, Wheat, Dumbbell } from "lucide-react";
 import { healthGoals, type RecipeHealthGoal } from "@/data/recipes";
 import { useLanguage } from "@/lib/i18n";
 
@@ -10,6 +10,8 @@ interface HealthGoalsFilterProps {
 const goalIcons: Record<RecipeHealthGoal, typeof HeartPulse> = {
   "Heart Healthy": HeartPulse,
   "Diabetes Friendly": Activity,
+  "High Fiber": Wheat,
+  "Protein Rich": Dumbbell,
 };
 
 export function HealthGoalsFilter({ selected, onChange }: HealthGoalsFilterProps) {

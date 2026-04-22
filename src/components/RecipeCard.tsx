@@ -102,7 +102,7 @@ export function RecipeCard({ recipe, matchedIngredients, index, onViewPdf }: Rec
                 className="inline-flex items-center gap-1.5 rounded-lg bg-primary/10 px-3 py-2 text-sm font-medium text-primary transition-all hover:bg-primary/15 active:scale-[0.97]"
               >
                 <Globe className="h-3.5 w-3.5" />
-                Ver en español
+                {t("recipe.viewSpanish")}
               </button>
             )}
             <a

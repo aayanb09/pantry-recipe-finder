@@ -15,6 +15,8 @@ interface LanguageContextValue {
   translateCategory: (category: RecipeCategory) => string;
   translateHealthGoal: (goal: RecipeHealthGoal) => string;
   translateHealthGoalDescription: (goal: RecipeHealthGoal) => string;
+  translateIngredientGroupLabel: (groupId: string, fallback: string) => string;
+  translateIngredientGroupDescription: (groupId: string, fallback: string) => string;
   languageOptions: LanguageOption[];
 }
 
@@ -123,49 +125,155 @@ const categoriesByLanguage: Record<LanguageCode, Record<RecipeCategory, string>>
 };
 
 const healthGoalLabels: Record<LanguageCode, Record<RecipeHealthGoal, string>> = {
-  en: { "Heart Healthy": "Heart Healthy", "Diabetes Friendly": "Diabetes Friendly" },
-  es: { "Heart Healthy": "Saludable para el corazón", "Diabetes Friendly": "Apto para diabetes" },
-  fr: { "Heart Healthy": "Bon pour le coeur", "Diabetes Friendly": "Adapté au diabète" },
-  de: { "Heart Healthy": "Herzgesund", "Diabetes Friendly": "Diabetesfreundlich" },
-  ar: { "Heart Healthy": "صحي للقلب", "Diabetes Friendly": "مناسب لمرضى السكري" },
-  zh: { "Heart Healthy": "护心健康", "Diabetes Friendly": "适合糖尿病人" },
-  hi: { "Heart Healthy": "हृदय के लिए अच्छा", "Diabetes Friendly": "मधुमेह के अनुकूल" },
-  vi: { "Heart Healthy": "Tốt cho tim mạch", "Diabetes Friendly": "Phù hợp cho tiểu đường" },
+  en: {
+    "Heart Healthy": "Heart Healthy",
+    "Diabetes Friendly": "Diabetes Friendly",
+    "High Fiber": "High Fiber",
+    "Protein Rich": "Protein Rich",
+  },
+  es: {
+    "Heart Healthy": "Saludable para el corazón",
+    "Diabetes Friendly": "Apto para diabetes",
+    "High Fiber": "Alto en fibra",
+    "Protein Rich": "Rico en proteína",
+  },
+  fr: {
+    "Heart Healthy": "Bon pour le coeur",
+    "Diabetes Friendly": "Adapté au diabète",
+    "High Fiber": "Riche en fibres",
+    "Protein Rich": "Riche en protéines",
+  },
+  de: {
+    "Heart Healthy": "Herzgesund",
+    "Diabetes Friendly": "Diabetesfreundlich",
+    "High Fiber": "Ballaststoffreich",
+    "Protein Rich": "Proteinreich",
+  },
+  ar: {
+    "Heart Healthy": "صحي للقلب",
+    "Diabetes Friendly": "مناسب لمرضى السكري",
+    "High Fiber": "غني بالألياف",
+    "Protein Rich": "غني بالبروتين",
+  },
+  zh: {
+    "Heart Healthy": "护心健康",
+    "Diabetes Friendly": "适合糖尿病人",
+    "High Fiber": "高纤维",
+    "Protein Rich": "高蛋白",
+  },
+  hi: {
+    "Heart Healthy": "हृदय के लिए अच्छा",
+    "Diabetes Friendly": "मधुमेह के अनुकूल",
+    "High Fiber": "उच्च फाइबर",
+    "Protein Rich": "प्रोटीन से भरपूर",
+  },
+  vi: {
+    "Heart Healthy": "Tốt cho tim mạch",
+    "Diabetes Friendly": "Phù hợp cho tiểu đường",
+    "High Fiber": "Giàu chất xơ",
+    "Protein Rich": "Giàu protein",
+  },
 };
 
 const healthGoalDescriptions: Record<LanguageCode, Record<RecipeHealthGoal, string>> = {
   en: {
     "Heart Healthy": "Recipes centered on produce, beans, and lighter cooking fats.",
     "Diabetes Friendly": "Recipes with more fiber-forward, savory ingredients and fewer sweets.",
+    "High Fiber": "Recipes built around beans, lentils, vegetables, fruits, or oats.",
+    "Protein Rich": "Recipes with beans, lentils, dairy, eggs, nuts, or meat as a key ingredient.",
   },
   es: {
     "Heart Healthy": "Recetas centradas en vegetales, frijoles y grasas de cocina más ligeras.",
     "Diabetes Friendly": "Recetas con más fibra, ingredientes salados y menos dulces.",
+    "High Fiber": "Recetas basadas en frijoles, lentejas, verduras, frutas o avena.",
+    "Protein Rich": "Recetas con frijoles, lentejas, lácteos, huevos, nueces o carne como ingrediente principal.",
   },
   fr: {
     "Heart Healthy": "Recettes axées sur les légumes, les haricots et des matières grasses plus légères.",
     "Diabetes Friendly": "Recettes avec plus de fibres, des ingrédients salés et moins de sucré.",
+    "High Fiber": "Recettes à base de haricots, lentilles, légumes, fruits ou avoine.",
+    "Protein Rich": "Recettes avec haricots, lentilles, produits laitiers, oeufs, noix ou viande comme ingrédient clé.",
   },
   de: {
     "Heart Healthy": "Rezepte mit Gemüse, Bohnen und leichteren Kochfetten.",
     "Diabetes Friendly": "Rezepte mit mehr Ballaststoffen, herzhaften Zutaten und weniger Süßem.",
+    "High Fiber": "Rezepte mit Bohnen, Linsen, Gemüse, Obst oder Hafer.",
+    "Protein Rich": "Rezepte mit Bohnen, Linsen, Milchprodukten, Eiern, Nüssen oder Fleisch als Hauptzutat.",
   },
   ar: {
     "Heart Healthy": "وصفات تركز على الخضار والبقول ودهون الطهي الأخف.",
     "Diabetes Friendly": "وصفات أكثر غنى بالألياف والمكونات المالحة وأقل حلاوة.",
+    "High Fiber": "وصفات تعتمد على الفاصوليا والعدس والخضار والفاكهة أو الشوفان.",
+    "Protein Rich": "وصفات تحتوي على الفاصوليا أو العدس أو الألبان أو البيض أو المكسرات أو اللحم كمكون أساسي.",
   },
   zh: {
     "Heart Healthy": "以蔬菜、豆类和较清淡烹调用油为主的食谱。",
     "Diabetes Friendly": "富含纤维、偏咸香且甜味较少的食谱。",
+    "High Fiber": "以豆类、扁豆、蔬菜、水果或燕麦为主的食谱。",
+    "Protein Rich": "以豆类、扁豆、乳制品、鸡蛋、坚果或肉类为主要食材的食谱。",
   },
   hi: {
     "Heart Healthy": "सब्जियों, बीन्स और हल्के पकाने वाले वसा पर आधारित रेसिपी।",
     "Diabetes Friendly": "अधिक फाइबर, नमकीन सामग्री और कम मीठेपन वाली रेसिपी।",
+    "High Fiber": "बीन्स, दाल, सब्जियों, फलों या ओट्स पर आधारित रेसिपी।",
+    "Protein Rich": "बीन्स, दाल, डेयरी, अंडे, मेवे या मांस को मुख्य सामग्री बनाने वाली रेसिपी।",
   },
   vi: {
     "Heart Healthy": "Công thức tập trung vào rau củ, đậu và chất béo nấu ăn nhẹ hơn.",
     "Diabetes Friendly": "Công thức nhiều chất xơ hơn, vị mặn hơn và ít ngọt hơn.",
+    "High Fiber": "Công thức dựa trên đậu, đậu lăng, rau củ, trái cây hoặc yến mạch.",
+    "Protein Rich": "Công thức có đậu, đậu lăng, sữa, trứng, hạt hoặc thịt là thành phần chính.",
   },
+};
+
+const ingredientGroupLabels: Record<LanguageCode, Record<string, string>> = {
+  en: {
+    "beans-legumes": "Beans & Legumes",
+    vegetables: "Vegetables",
+    fruit: "Fruit",
+    "grains-starches": "Grains & Starches",
+    "protein-dairy": "Protein & Dairy",
+    flavorings: "Seasonings & Sauces",
+  },
+  es: {
+    "beans-legumes": "Frijoles y legumbres",
+    vegetables: "Verduras",
+    fruit: "Fruta",
+    "grains-starches": "Granos y almidones",
+    "protein-dairy": "Proteína y lácteos",
+    flavorings: "Condimentos y salsas",
+  },
+  fr: {},
+  de: {},
+  ar: {},
+  zh: {},
+  hi: {},
+  vi: {},
+};
+
+const ingredientGroupDescriptions: Record<LanguageCode, Record<string, string>> = {
+  en: {
+    "beans-legumes": "Choose the kind of beans, peas, or lentils you have.",
+    vegetables: "Fresh, frozen, and canned produce.",
+    fruit: "Whole fruit and fruit mixes.",
+    "grains-starches": "Pasta, rice, oats, and other pantry staples.",
+    "protein-dairy": "Meat, eggs, cheese, and creamy basics.",
+    flavorings: "Aromatics, sauces, oils, and flavor builders.",
+  },
+  es: {
+    "beans-legumes": "Elige el tipo de frijoles, chícharos o lentejas que tienes.",
+    vegetables: "Productos frescos, congelados y enlatados.",
+    fruit: "Fruta entera y mezclas de fruta.",
+    "grains-starches": "Pasta, arroz, avena y otros básicos de despensa.",
+    "protein-dairy": "Carne, huevos, queso y básicos cremosos.",
+    flavorings: "Aromáticos, salsas, aceites y potenciadores de sabor.",
+  },
+  fr: {},
+  de: {},
+  ar: {},
+  zh: {},
+  hi: {},
+  vi: {},
 };
 
 type TranslationKey =
@@ -173,10 +281,12 @@ type TranslationKey =
   | "nav.browsePdfs"
   | "nav.admin"
   | "nav.language"
+  | "nav.logoAlt"
   | "hero.badge"
   | "hero.title"
   | "hero.description"
   | "hero.cta"
+  | "hero.imageAlt"
   | "ingredients.title"
   | "ingredients.subtitle"
   | "ingredientPicker.searchPlaceholder"
@@ -200,7 +310,10 @@ type TranslationKey =
   | "recipe.viewRecipe"
   | "recipe.openDrive"
   | "recipe.findLibrary"
+  | "recipe.viewSpanish"
   | "viewer.spanish"
+  | "viewer.frameTitle"
+  | "viewer.close"
   | "notFound.eyebrow"
   | "notFound.title"
   | "notFound.body"
@@ -243,6 +356,14 @@ type TranslationKey =
   | "admin.syncRecipe"
   | "admin.noUnsyncedTitle"
   | "admin.noUnsyncedBody"
+  | "admin.statusNoFiles"
+  | "admin.statusDetectedFiles"
+  | "admin.statusMissingRecipeFields"
+  | "admin.statusSyncedRecipe"
+  | "admin.statusLoadError"
+  | "admin.statusSignInError"
+  | "admin.statusSyncError"
+  | "admin.statusRemoveError"
   | "admin.notesTitle"
   | "admin.notesOne"
   | "admin.notesTwo"
@@ -259,10 +380,12 @@ const translations: Record<LanguageCode, Record<TranslationKey, string>> = {
     "nav.browsePdfs": "Browse all PDFs",
     "nav.admin": "Admin",
     "nav.language": "Language",
+    "nav.logoAlt": "The Food Bank for Central & Northeast Missouri",
     "hero.badge": "Food Bank Recipe Finder",
     "hero.title": "What's in your kitchen today?",
     "hero.description": "Find easy, delicious recipes using the ingredients you already have at home or received from the pantry. All PDFs are made by The Food Bank for Central & Northeast Missouri.",
     "hero.cta": "Find recipes",
+    "hero.imageAlt": "Fresh vegetables, fruits, beans and grains on a wooden table",
     "ingredients.title": "Select your ingredients",
     "ingredients.subtitle": "Pick what you have and we'll find matching recipes",
     "ingredientPicker.searchPlaceholder": "Search for an ingredient or browse categories below",
@@ -286,7 +409,10 @@ const translations: Record<LanguageCode, Record<TranslationKey, string>> = {
     "recipe.viewRecipe": "View recipe",
     "recipe.openDrive": "Open in Drive",
     "recipe.findLibrary": "Find in recipe library",
+    "recipe.viewSpanish": "View in Spanish",
     "viewer.spanish": "(Español)",
+    "viewer.frameTitle": "{title} recipe PDF",
+    "viewer.close": "Close recipe viewer",
     "notFound.eyebrow": "Page Not Found",
     "notFound.title": "This page is not in the recipe library.",
     "notFound.body": "Head back to the finder to browse recipes by ingredient.",
@@ -329,6 +455,14 @@ const translations: Record<LanguageCode, Record<TranslationKey, string>> = {
     "admin.syncRecipe": "Sync this recipe",
     "admin.noUnsyncedTitle": "No unsynced Drive files detected yet",
     "admin.noUnsyncedBody": "Paste new Drive links above to review them and publish recipes one by one.",
+    "admin.statusNoFiles": "No Google Drive file IDs were detected.",
+    "admin.statusDetectedFiles": "Detected {count} file{plural} from the pasted content.",
+    "admin.statusMissingRecipeFields": "Each synced recipe needs a title and at least one ingredient.",
+    "admin.statusSyncedRecipe": "Synced \"{title}\" into the shared recipe catalog.",
+    "admin.statusLoadError": "Could not load recipe data.",
+    "admin.statusSignInError": "Could not sign in.",
+    "admin.statusSyncError": "Could not sync this recipe.",
+    "admin.statusRemoveError": "Could not remove this recipe.",
     "admin.notesTitle": "Helpful admin notes",
     "admin.notesOne": "Uploading a PDF to Google Drive alone still does not publish it. An admin has to sync it here.",
     "admin.notesTwo": "Recipes synced here are stored in the shared backend and appear for all users on the live site.",
@@ -344,10 +478,12 @@ const translations: Record<LanguageCode, Record<TranslationKey, string>> = {
     "nav.browsePdfs": "Ver todos los PDF",
     "nav.admin": "Admin",
     "nav.language": "Idioma",
+    "nav.logoAlt": "The Food Bank for Central & Northeast Missouri",
     "hero.badge": "Buscador de recetas del banco de alimentos",
     "hero.title": "¿Qué hay en tu cocina hoy?",
     "hero.description": "Encuentra recetas fáciles y deliciosas usando los ingredientes que ya tienes en casa o recibiste de la despensa.",
     "hero.cta": "Buscar recetas",
+    "hero.imageAlt": "Verduras, frutas, frijoles y granos frescos sobre una mesa de madera",
     "ingredients.title": "Selecciona tus ingredientes",
     "ingredients.subtitle": "Elige lo que tienes y encontraremos recetas que coincidan",
     "ingredientPicker.searchPlaceholder": "Busca un ingrediente o explora las categorías abajo",
@@ -371,7 +507,10 @@ const translations: Record<LanguageCode, Record<TranslationKey, string>> = {
     "recipe.viewRecipe": "Ver receta",
     "recipe.openDrive": "Abrir en Drive",
     "recipe.findLibrary": "Buscar en la biblioteca",
+    "recipe.viewSpanish": "Ver en español",
     "viewer.spanish": "(Español)",
+    "viewer.frameTitle": "PDF de receta: {title}",
+    "viewer.close": "Cerrar visor de recetas",
     "notFound.eyebrow": "Página no encontrada",
     "notFound.title": "Esta página no está en la biblioteca de recetas.",
     "notFound.body": "Vuelve al buscador para explorar recetas por ingrediente.",
@@ -414,6 +553,14 @@ const translations: Record<LanguageCode, Record<TranslationKey, string>> = {
     "admin.syncRecipe": "Sincronizar receta",
     "admin.noUnsyncedTitle": "Aún no hay archivos detectados sin sincronizar",
     "admin.noUnsyncedBody": "Pega nuevos enlaces de Drive arriba para revisarlos y publicarlos.",
+    "admin.statusNoFiles": "No se detectaron IDs de archivos de Google Drive.",
+    "admin.statusDetectedFiles": "Se detectaron {count} archivo{plural} en el contenido pegado.",
+    "admin.statusMissingRecipeFields": "Cada receta sincronizada necesita un título y al menos un ingrediente.",
+    "admin.statusSyncedRecipe": "\"{title}\" se sincronizó en el catálogo compartido.",
+    "admin.statusLoadError": "No se pudieron cargar los datos de recetas.",
+    "admin.statusSignInError": "No se pudo iniciar sesión.",
+    "admin.statusSyncError": "No se pudo sincronizar esta receta.",
+    "admin.statusRemoveError": "No se pudo eliminar esta receta.",
     "admin.notesTitle": "Notas útiles",
     "admin.notesOne": "Subir un PDF a Google Drive por sí solo no lo publica.",
     "admin.notesTwo": "Las recetas sincronizadas aquí aparecen para todos los usuarios.",
@@ -466,6 +613,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     translateCategory: (category) => categoriesByLanguage[language][category] ?? category,
     translateHealthGoal: (goal) => healthGoalLabels[language][goal] ?? goal,
     translateHealthGoalDescription: (goal) => healthGoalDescriptions[language][goal] ?? healthGoalDescriptions.en[goal],
+    translateIngredientGroupLabel: (groupId, fallback) => ingredientGroupLabels[language][groupId] ?? ingredientGroupLabels.en[groupId] ?? fallback,
+    translateIngredientGroupDescription: (groupId, fallback) => ingredientGroupDescriptions[language][groupId] ?? ingredientGroupDescriptions.en[groupId] ?? fallback,
     languageOptions,
   }), [language]);
 

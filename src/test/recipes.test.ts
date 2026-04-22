@@ -53,6 +53,26 @@ describe("recipe PDF mappings", () => {
     expect(matches.map((recipe) => recipe.id)).not.toContain("fruit-salad");
   });
 
+  it("supports newer high-fiber filtering", () => {
+    const matches = getFilteredRecipes(recipes, {
+      selectedHealthGoals: ["High Fiber"],
+    });
+
+    expect(matches.length).toBeGreaterThan(0);
+    expect(matches.every((recipe) => recipe.healthGoals.includes("High Fiber"))).toBe(true);
+    expect(matches.map((recipe) => recipe.id)).toContain("lentil-soup");
+  });
+
+  it("supports newer protein-rich filtering", () => {
+    const matches = getFilteredRecipes(recipes, {
+      selectedHealthGoals: ["Protein Rich"],
+    });
+
+    expect(matches.length).toBeGreaterThan(0);
+    expect(matches.every((recipe) => recipe.healthGoals.includes("Protein Rich"))).toBe(true);
+    expect(matches.map((recipe) => recipe.id)).toContain("hummus");
+  });
+
   it("provides grouped ingredient options for expandable picker sections", () => {
     const beanGroup = ingredientGroups.find((group) => group.id === "beans-legumes");
 

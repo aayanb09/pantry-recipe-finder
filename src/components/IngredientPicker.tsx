@@ -21,7 +21,7 @@ export function IngredientPicker({
   popularIngredients,
   onChange,
 }: IngredientPickerProps) {
-  const { t } = useLanguage();
+  const { t, translateIngredientGroupDescription, translateIngredientGroupLabel } = useLanguage();
   const [search, setSearch] = useState("");
   const [openGroups, setOpenGroups] = useState<string[]>(defaultOpenGroups);
 
@@ -133,8 +133,12 @@ export function IngredientPicker({
                 <div className="brand-surface overflow-hidden rounded-2xl border border-border">
                   <CollapsibleTrigger className="flex w-full items-start justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-muted/40">
                     <div>
-                      <p className="text-base font-semibold">{group.label}</p>
-                      <p className="text-sm text-muted-foreground">{group.description}</p>
+                      <p className="text-base font-semibold">
+                        {translateIngredientGroupLabel(group.id, group.label)}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {translateIngredientGroupDescription(group.id, group.description)}
+                      </p>
                     </div>
                     <ChevronDown
                       className={`h-4 w-4 mt-1 shrink-0 text-muted-foreground transition-transform ${isOpen ? "rotate-180" : ""}`}

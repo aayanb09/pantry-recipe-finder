@@ -132,7 +132,7 @@ const Index = () => {
           <div className="flex items-center gap-3">
             <img
               src="/food-bank-logo.png"
-              alt="The Food Bank for Central & Northeast Missouri"
+              alt={t("nav.logoAlt")}
               className="h-14 w-14 shrink-0 object-contain md:h-16 md:w-16"
             />
             <div>
@@ -165,7 +165,7 @@ const Index = () => {
         <div className="absolute inset-0">
           <img
             src={heroImage}
-            alt="Fresh vegetables, fruits, beans and grains on a wooden table"
+            alt={t("hero.imageAlt")}
             className="w-full h-full object-cover"
             loading="eager"
           />

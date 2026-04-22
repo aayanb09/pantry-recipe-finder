@@ -27,6 +27,7 @@ export function RecipeViewer({ recipe, spanish, onClose }: RecipeViewerProps) {
           <button
             onClick={onClose}
             className="shrink-0 p-2 rounded-lg hover:bg-muted transition-colors active:scale-[0.95]"
+            aria-label={t("viewer.close")}
           >
             <X className="h-5 w-5" />
           </button>
@@ -37,7 +38,7 @@ export function RecipeViewer({ recipe, spanish, onClose }: RecipeViewerProps) {
           <iframe
             src={getPreviewUrl(fileId)}
             className="w-full h-full border-0"
-            title={`${recipe.title} recipe PDF`}
+            title={t("viewer.frameTitle", { title: recipe.title })}
             allow="autoplay"
           />
         </div>
