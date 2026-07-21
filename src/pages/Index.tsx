@@ -7,6 +7,7 @@ import {
   getFilteredRecipes,
   getIngredientGroups,
   getPopularIngredients,
+  recipes,
   type Recipe,
   type RecipeCategory,
   type RecipeHealthGoal,
@@ -84,17 +85,17 @@ const Index = () => {
   }, []);
 
   const availableIngredients = useMemo(
-    () => getAllIngredients(availableRecipes),
+    () => getAllIngredients(availableRecipes.length > 0 ? availableRecipes : recipes),
     [availableRecipes],
   );
 
   const availableIngredientGroups = useMemo(
-    () => getIngredientGroups(availableRecipes),
+    () => getIngredientGroups(availableRecipes.length > 0 ? availableRecipes : recipes),
     [availableRecipes],
   );
 
   const suggestedIngredients = useMemo(
-    () => getPopularIngredients(availableRecipes),
+    () => getPopularIngredients(availableRecipes.length > 0 ? availableRecipes : recipes),
     [availableRecipes],
   );
 
