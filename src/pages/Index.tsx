@@ -210,12 +210,6 @@ const Index = () => {
         </div>
       </Section>
 
-      <Section className="pb-6 md:pb-8">
-        <div className="container">
-          <HealthGoalsFilter selected={selectedHealthGoals} onChange={setSelectedHealthGoals} />
-        </div>
-      </Section>
-
       {/* Results */}
       <div ref={resultsRef} className="scroll-mt-16">
         <Section className="pb-16 md:pb-24">
@@ -249,6 +243,11 @@ const Index = () => {
                   </button>
                 )}
               </div>
+            </div>
+
+            {/* Health Goals Filter (below results as optional refinement) */}
+            <div className="mb-8">
+              <HealthGoalsFilter selected={selectedHealthGoals} onChange={setSelectedHealthGoals} />
             </div>
 
             {/* Count */}
