@@ -316,7 +316,6 @@ const Admin = () => {
               </div>
               <div>
                 <h2 className="text-xl font-semibold">{t("admin.loginEyebrow")}</h2>
-                <p className="text-sm text-muted-foreground">{t("admin.loginHelp")}</p>
               </div>
             </div>
 
@@ -357,7 +356,6 @@ const Admin = () => {
               </button>
             </form>
 
-            <p className="mt-4 text-xs text-muted-foreground">{t("admin.loginHelp")}</p>
             <Link to="/" className="mt-6 inline-flex text-sm font-medium text-primary hover:underline">
               {t("admin.backHome")}
             </Link>
