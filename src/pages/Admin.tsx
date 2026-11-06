@@ -256,7 +256,12 @@ const Admin = () => {
       await refreshRecipes();
       setSyncStatus(t("admin.statusSyncedRecipe", { title: nextRecipe.title }));
     } catch (error) {
-      setSyncStatus(error instanceof Error ? error.message : t("admin.statusSyncError"));
+      const message =
+        error && typeof error === "object" && "message" in error
+          ? String((error as { message: unknown }).message)
+          : "";
+      console.error("Recipe sync failed:", error);
+      setSyncStatus(message ? `${t("admin.statusSyncError")} (${message})` : t("admin.statusSyncError"));
     }
   };
 
