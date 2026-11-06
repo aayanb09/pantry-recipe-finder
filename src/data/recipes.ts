@@ -267,7 +267,7 @@ export const curatedPopularIngredients = [
   "Peanut Butter", "Tortillas", "Broccoli",
 ];
 
-const ingredientGroupDefinitions: Omit<IngredientGroup, "ingredients"> & { ingredients: string[] }[] = [
+const ingredientGroupDefinitions: IngredientGroup[] = [
   {
     id: "beans-legumes",
     label: "Beans & Legumes",
