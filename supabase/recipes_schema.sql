@@ -32,6 +32,11 @@ $$;
 
 grant execute on function public.is_admin() to anon, authenticated;
 
+grant select on public.recipes to anon;
+grant select, insert, update, delete on public.recipes to authenticated;
+grant select on public.admin_users to authenticated;
+grant all on public.recipes, public.admin_users to service_role;
+
 alter table public.admin_users enable row level security;
 alter table public.recipes enable row level security;
 
